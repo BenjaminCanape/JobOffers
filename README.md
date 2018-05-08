@@ -18,7 +18,7 @@ The first one where you launch mongodb whith the command:
 Then in another tab, type these commands:
 - cd server/
 - npm install
-- PORT=3001 node bin/www
+- node app.js
 
 Finaly, in the last tab:
 - cd client/
