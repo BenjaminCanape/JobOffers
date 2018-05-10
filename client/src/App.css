@@ -1,34 +1,25 @@
 .App {
   text-align: center;
-    background-color: #e0f2f1   ;
-  }
-
-html, body{
-    background-color: #e0f2f1   ;
 }
 
-.navbar{
+.navbar {
   background-color: #00796b !important;
   color: #fff !important;
 }
 
-.navbar a, .navbar a:hover{
+.navbar a,
+.navbar a:hover {
   color: white;
 }
 
-.jobOfferTitle{
+.jobOfferTitle {
   font-style: bold;
 }
 
-.jobOffer{
+.jobOffer {
   border-bottom: 1px solid #00796b;
 }
 
-.jobOffer:hover{
+.jobOffer:hover {
   background-color: #b2dfdb;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
