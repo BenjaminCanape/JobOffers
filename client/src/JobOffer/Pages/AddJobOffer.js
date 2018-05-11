@@ -8,6 +8,10 @@ class AddJobOfferPage extends Component {
     this.state = { successMessage: "", errorMessage: "" };
   }
 
+  componentDidUpdate = () => {
+    window.scrollTo(0, 0);
+  };
+
   //when the form is submitted, we call the api to create the new job offer
   onFormSubmit = jobOffer => {
     fetch("/jobOffers", {

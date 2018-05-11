@@ -11,15 +11,3 @@
 .navbar a:hover {
   color: white;
 }
-
-.jobOfferTitle {
-  font-style: bold;
-}
-
-.jobOffer {
-  border-bottom: 1px solid #00796b;
-}
-
-.jobOffer:hover {
-  background-color: #b2dfdb;
-}

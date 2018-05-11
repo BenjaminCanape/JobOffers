@@ -16,9 +16,11 @@ ReactDOM.render(
 	<Router>
 		<div>
 			<App />
-			<Route exact path="/" component={JobOffersList} />
-			<Route path="/add" component={AddJobOffer} />
-			<Route path="/edit/:id" component={EditJobOffer} />
+			<div className="container">
+				<Route exact path="/" component={JobOffersList} />
+				<Route path="/add" component={AddJobOffer} />
+				<Route path="/edit/:id" component={EditJobOffer} />
+			</div>
 		</div>
 	</Router>,
 	document.getElementById("root")

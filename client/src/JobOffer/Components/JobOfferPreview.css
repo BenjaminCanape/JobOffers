@@ -1,0 +1,17 @@
+.jobOfferTitle {
+	font-style: bold;
+	font-size: 150%;
+}
+
+.jobOffer {
+	border-bottom: 1px solid #00796b;
+	margin-top: 10px;
+}
+
+.deleteJobOfferIcon {
+	cursor: pointer;
+}
+
+.jobOffer .subtitle {
+	font-style: bold;
+}

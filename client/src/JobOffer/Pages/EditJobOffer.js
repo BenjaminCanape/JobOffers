@@ -20,6 +20,10 @@ class EditJobOfferPage extends Component {
       });
   }
 
+  componentDidUpdate = () => {
+    window.scrollTo(0, 0);
+  };
+
   //when the form is submitted, we update the previously saved job offer with the new infos
   onFormSubmit = jobOffer => {
     fetch("/jobOffers/" + this.state.jobOffer._id, {
