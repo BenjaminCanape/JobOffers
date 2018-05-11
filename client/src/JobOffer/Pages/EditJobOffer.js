@@ -36,7 +36,11 @@ class EditJobOfferPage extends Component {
         return response.json();
       })
       .then(body => {
-        this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+        if (body.message) {
+          this.setState({ errorMessage: body.message });
+        } else {
+          this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+        }
       });
   };
 

@@ -39,9 +39,13 @@ class JobOffersList extends Component {
         return response.json();
       })
       .then(body => {
-        let jobOfferList = this.state.jobOfferList.slice();
-        jobOfferList = jobOfferList.filter(jobOffer => jobOffer._id !== id);
-        this.setState({ jobOfferList: jobOfferList, successMessage: "L'offre d'emploi vient d'être supprimée" });
+        if (body.message) {
+          this.setState({ errorMessage: body.message });
+        } else {
+          let jobOfferList = this.state.jobOfferList.slice();
+          jobOfferList = jobOfferList.filter(jobOffer => jobOffer._id !== id);
+          this.setState({ jobOfferList: jobOfferList, successMessage: "L'offre d'emploi vient d'être supprimée" });
+        }
       });
   };
 

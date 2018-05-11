@@ -87,6 +87,7 @@ class JobOfferForm extends Component {
               className="form-control"
               id="title"
               name="title"
+              required
               value={this.state.title}
               onChange={this.handleChange}
             />
@@ -98,6 +99,7 @@ class JobOfferForm extends Component {
               className="form-control"
               id="city"
               name="city"
+              required
               value={this.state.city}
               onChange={this.handleChange}
             />
@@ -109,20 +111,26 @@ class JobOfferForm extends Component {
               className="form-control"
               id="company"
               name="company"
+              required
               value={this.state.company}
               onChange={this.handleChange}
             />
           </div>
           <div className="form-group">
             <label htmlFor="contractType">Type de contrat</label>
-            <input
-              type="text"
+            <select
               className="form-control"
               id="contractType"
               name="contractType"
               value={this.state.contractType}
               onChange={this.handleChange}
-            />
+            >
+              <option value="CDI">CDI</option>
+              <option value="CDD">CDD</option>
+              <option value="Alternance">Alternance</option>
+              <option value="Stage">Stage</option>
+              <option value="Apprentissage">Apprentissage</option>
+            </select>
           </div>
           <div className="form-group">
             <label htmlFor="wage">Salaire</label>
@@ -152,6 +160,7 @@ class JobOfferForm extends Component {
               id="jobDescription"
               className="form-control"
               name="jobDescription"
+              required
               value={this.state.jobDescription}
               onChange={this.handleChange}
               rows="5"
