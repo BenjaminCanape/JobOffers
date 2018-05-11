@@ -1,11 +1,33 @@
 import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrashAlt from "@fortawesome/fontawesome-free-solid/faTrashAlt";
+import PropTypes from "prop-types";
 
 import "./JobOfferPreview.css";
 
 //component to print a job offer preview, used in the job offer list
 class JobOfferPreview extends Component {
+  static defaultProps = {
+    jobOffer: {
+      _id: "",
+      title: "",
+      company: "",
+      city: "",
+      jobDescription: "",
+    },
+  };
+
+  static propTypes = {
+    deleteJobOffer: PropTypes.func.isRequired,
+    jobOffer: PropTypes.shape({
+      _id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      company: PropTypes.string.isRequired,
+      city: PropTypes.string.isRequired,
+      jobDescription: PropTypes.string.isRequired,
+    }),
+  };
+
   //Get the short version of the job description
   //param description: String
   //return String

@@ -23,6 +23,7 @@ class AddJobOfferPage extends Component {
         return response.json();
       })
       .then(body => {
+        console.log(body);
         this.setState({ successMessage: "L'offre d'emploi vient d'être créée" });
       });
   };

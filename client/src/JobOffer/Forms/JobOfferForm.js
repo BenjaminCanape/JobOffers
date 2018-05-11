@@ -1,7 +1,34 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 //Form component, the form to create or update a job offer
 class JobOfferForm extends Component {
+  static defaultProps = {
+    defaultJobOffer: {
+      _id: "",
+      title: "",
+      city: "",
+      company: "",
+      contractType: "",
+      wage: 0,
+      companyDescription: "",
+      jobDescription: "",
+    },
+  };
+
+  static propTypes = {
+    defaultJobOffer: PropTypes.shape({
+      _id: PropTypes.string,
+      title: PropTypes.string,
+      company: PropTypes.string,
+      city: PropTypes.string,
+      contractType: PropTypes.string,
+      wage: PropTypes.number,
+      companyDescription: PropTypes.string,
+      jobDescription: PropTypes.string,
+    }),
+  };
+
   constructor(props) {
     super(props);
     this.state = {
