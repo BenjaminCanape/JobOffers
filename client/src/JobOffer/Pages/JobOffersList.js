@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import JobOfferPreview from "../Components/JobOfferPreview";
+import FlashMessage from "../Components/FlashMessage";
 
 //Job offer list page : This is the page where we can see all the job offers
 class JobOffersList extends Component {
@@ -49,16 +50,7 @@ class JobOffersList extends Component {
     const { jobOfferList } = this.state;
     return (
       <div>
-        {this.state.successMessage && (
-          <div className="alert alert-success" role="alert">
-            {this.state.successMessage}{" "}
-          </div>
-        )}
-        {this.state.errorMessage && (
-          <div className="alert alert-error" role="alert">
-            {this.state.errorMessage}{" "}
-          </div>
-        )}
+        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
         {jobOfferList.length ? (
           jobOfferList.map(jobOffer => (
             <JobOfferPreview key={jobOffer._id} jobOffer={jobOffer} deleteJobOffer={this.deleteJobOffer} />

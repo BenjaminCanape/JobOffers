@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import JobOfferForm from "../Forms/JobOfferForm";
+import FlashMessage from "../Components/FlashMessage";
 
 //page where we can edit a job offer
 class EditJobOfferPage extends Component {
@@ -42,16 +43,7 @@ class EditJobOfferPage extends Component {
   render() {
     return (
       <div className="container">
-        {this.state.successMessage && (
-          <div className="alert alert-success" role="alert">
-            {this.state.successMessage}{" "}
-          </div>
-        )}
-        {this.state.errorMessage && (
-          <div className="alert alert-error" role="alert">
-            {this.state.errorMessage}{" "}
-          </div>
-        )}
+        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
         <h2>Modifier l'offre d'emploi</h2>
         <JobOfferForm defaultJobOffer={this.state.jobOffer} onFormSubmit={this.onFormSubmit} />
       </div>
