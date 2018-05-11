@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faTrashAlt from "@fortawesome/fontawesome-free-solid/faTrashAlt";
 import PropTypes from "prop-types";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 import "./JobOfferPreview.css";
 
@@ -36,7 +38,19 @@ class JobOfferPreview extends Component {
   }
 
   deleteJobOffer = id => {
-    this.props.deleteJobOffer(id);
+    confirmAlert({
+      title: "Confirmation",
+      message: "Etes-vous sûr de vouloir supprimer cette offre ?",
+      buttons: [
+        {
+          label: "Oui",
+          onClick: () => this.props.deleteJobOffer(id),
+        },
+        {
+          label: "Non",
+        },
+      ],
+    });
   };
 
   render() {
