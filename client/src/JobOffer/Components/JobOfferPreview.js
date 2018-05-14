@@ -58,7 +58,7 @@ class JobOfferPreview extends Component {
 
     return (
       <div className="jobOffer">
-        <a href={`/edit/${_id}`} className="jobOfferTitle">
+        <a href={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </a>
         <FontAwesomeIcon

@@ -15,14 +15,12 @@ class AddJobOfferPage extends Component {
 
   //when the form is submitted, we call the api to create the new job offer
   onFormSubmit = jobOffer => {
-    console.log(jobOffer);
     fetch("/jobOffers", {
       method: "POST",
       body: JSON.stringify(jobOffer),
       headers: { "Content-Type": "application/json" },
     })
       .then(function(response) {
-        console.log(response);
         return response.json();
       })
       .then(body => {

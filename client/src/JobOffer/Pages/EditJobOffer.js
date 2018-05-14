@@ -40,6 +40,8 @@ class EditJobOfferPage extends Component {
           this.setState({ errorMessage: body.message });
         } else {
           this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+
+          this.props.history.push("/view/" + this.state.jobOffer._id);
         }
       });
   };
