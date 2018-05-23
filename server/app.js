@@ -5,9 +5,11 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
 var bodyParser = require("body-parser");
+var passport = require("passport");
 
 var indexRouter = require("./routes/index");
 var jobOffersRouter = require("./routes/jobOffers");
+var usersRouter = require("./routes/users");
 
 var app = express();
 const port = process.env.PORT || 5000;
@@ -31,6 +33,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/jobOffers", jobOffersRouter);
+app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -52,5 +55,8 @@ app.listen(port, () => console.log(`Listening on port ${port}`));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 module.exports = app;

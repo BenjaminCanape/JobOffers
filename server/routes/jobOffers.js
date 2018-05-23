@@ -2,6 +2,8 @@ var express = require("express");
 var router = express.Router();
 var mongoose = require("mongoose");
 var JobOffer = require("../models/JobOffer.js");
+var passport = require("passport");
+require("../config/passport")(passport);
 
 /* GET jobOffers listing. */
 router.get("/", function(req, res, next) {
@@ -20,27 +22,55 @@ router.get("/:id", function(req, res, next) {
 });
 
 /* POST jobOffer */
-router.post("/", function(req, res, next) {
-  JobOffer.create(req.body, function(err, jobOffer) {
-    if (err) return res.json(err);
-    res.json(jobOffer);
-  });
+router.post("/", passport.authenticate("jwt", { session: false }), function(req, res, next) {
+  var token = getToken(req.headers);
+  if (token) {
+    JobOffer.create(req.body, function(err, jobOffer) {
+      if (err) return res.json(err);
+      res.json(jobOffer);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: "Non autorisé" });
+  }
 });
 
 /* PUT jobOffer */
-router.put("/:id", function(req, res, next) {
-  JobOffer.findByIdAndUpdate(req.params.id, req.body, { runValidators: true }, function(err, jobOffer) {
-    if (err) return res.json(err);
-    res.json(jobOffer);
-  });
+router.put("/:id", passport.authenticate("jwt", { session: false }), function(req, res, next) {
+  var token = getToken(req.headers);
+  if (token) {
+    JobOffer.findByIdAndUpdate(req.params.id, req.body, { runValidators: true }, function(err, jobOffer) {
+      if (err) return res.json(err);
+      res.json(jobOffer);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: "Non autorisé" });
+  }
 });
 
 /* DELETE jobOffer */
-router.delete("/:id", function(req, res, next) {
-  JobOffer.findByIdAndRemove(req.params.id, req.body, function(err, jobOffer) {
-    if (err) return res.json(err);
-    res.json(jobOffer);
-  });
+router.delete("/:id", passport.authenticate("jwt", { session: false }), function(req, res, next) {
+  var token = getToken(req.headers);
+  if (token) {
+    JobOffer.findByIdAndRemove(req.params.id, req.body, function(err, jobOffer) {
+      if (err) return res.json(err);
+      res.json(jobOffer);
+    });
+  } else {
+    return res.status(403).send({ success: false, msg: "Non autorisé" });
+  }
 });
+
+getToken = function(headers) {
+  if (headers && headers.authorization) {
+    var parted = headers.authorization.split(" ");
+    if (parted.length === 2) {
+      return parted[1];
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
 
 module.exports = router;
