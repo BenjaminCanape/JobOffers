@@ -17,6 +17,7 @@ var userSchema = mongoose.Schema({
     isRecruiter: Boolean,
 });
 
+//before saving the user, we hash the password
 userSchema.pre("save", function(next) {
     var user = this;
     if (this.isModified("password") || this.isNew) {
@@ -37,6 +38,7 @@ userSchema.pre("save", function(next) {
     }
 });
 
+//method to know where the password passed in parameter is the right one
 userSchema.methods.comparePassword = function(passw, cb) {
     bcrypt.compare(passw, this.password, function(err, isMatch) {
         if (err) {

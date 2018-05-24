@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import JobOfferPreview from "../Components/JobOfferPreview";
 import FlashMessage from "../Components/FlashMessage";
+import axios from "axios";
 
 //Job offer list page : This is the page where we can see all the job offers
 class JobOffersList extends Component {
@@ -15,20 +16,11 @@ class JobOffersList extends Component {
 
   //when the component is mount, we call the api to get the list of job offers and update the local state
   componentDidMount() {
-    this.getJobOfferList()
-      .then(jobOfferList => this.setState({ jobOfferList: jobOfferList }))
+    axios
+      .get("/jobOffers")
+      .then(response => this.setState({ jobOfferList: response.data }))
       .catch(err => console.log(err));
   }
-
-  //function which call the api to get the list of job offers
-  getJobOfferList = async () => {
-    const response = await fetch("/jobOffers");
-    const body = await response.json();
-
-    if (response.status !== 200) throw Error(body.message);
-
-    return body;
-  };
 
   //when we click on the trash button of the preview, we delete this job offer thanks to the api
   deleteJobOffer = id => {

@@ -8,7 +8,7 @@ var router = express.Router();
 var User = require("../models/User");
 
 router.post("/register", function(req, res) {
-    if (!req.body.mail || !req.body.password) {
+    if (!req.body.email || !req.body.password) {
         res.json({ success: false, msg: "Mail ou mot de passe non rempli" });
     } else {
         var newUser = new User({
@@ -21,7 +21,7 @@ router.post("/register", function(req, res) {
         // save the user
         newUser.save(function(err) {
             if (err) {
-                return res.json({ success: false, msg: err });
+                res.json({ success: false, msg: err });
             }
             res.json({ success: true, msg: "Utilisateur créé" });
         });
@@ -37,7 +37,7 @@ router.post("/login", function(req, res) {
             if (err) throw err;
 
             if (!user) {
-                res.status(401).send({ success: false, msg: "Utilisateur non trouvé" });
+                res.status(401).json({ success: false, msg: "Utilisateur non trouvé" });
             } else {
                 // check if password matches
                 user.comparePassword(req.body.password, function(err, isMatch) {
