@@ -21,8 +21,16 @@ class ViewJobOfferPage extends Component {
       });
   }
 
+  loggedIn() {
+    // Checks if there is a saved token and it's still valid
+    const token = localStorage.getItem("jwtToken");
+    return !!token;
+  }
+
   render() {
     const { jobOffer } = this.state;
+    let loggedIn = this.loggedIn();
+
     return (
       <div className="container">
         <a href="/"> Retour à la liste</a>
@@ -31,7 +39,7 @@ class ViewJobOfferPage extends Component {
         <span className="jobOfferTitle">{jobOffer.title}</span>
         <span className="float-right">
           <a href={`/edit/${this.props.match.params.id}`}>
-            <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />
+            {loggedIn && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
           </a>
         </span>
         <br />

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import JobOfferForm from "../Forms/JobOfferForm";
 import FlashMessage from "../Components/FlashMessage";
+import axios from "axios";
 
 //page where we can edit a job offer
 class EditJobOfferPage extends Component {
@@ -27,23 +28,17 @@ class EditJobOfferPage extends Component {
 
   //when the form is submitted, we update the previously saved job offer with the new infos
   onFormSubmit = jobOffer => {
-    fetch("/jobOffers/" + this.state.jobOffer._id, {
-      method: "PUT",
-      body: JSON.stringify(jobOffer),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(body => {
-        if (body.message) {
-          this.setState({ errorMessage: body.message });
-        } else {
-          this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+    axios.defaults.headers.common["Authorization"] = localStorage.getItem("jwtToken");
 
-          this.props.history.push("/view/" + this.state.jobOffer._id);
-        }
-      });
+    axios.put("/jobOffers/" + this.state.jobOffer._id, jobOffer).then(response => {
+      if (response.data.message) {
+        this.setState({ errorMessage: response.data.message });
+      } else {
+        this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+
+        this.props.history.push("/view/" + this.state.jobOffer._id);
+      }
+    });
   };
 
   render() {

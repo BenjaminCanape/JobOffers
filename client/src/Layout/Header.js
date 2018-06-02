@@ -3,6 +3,7 @@ import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavLink } from "reac
 
 import FontAwesomeIcon from "@fortawesome/react-fontawesome";
 import faSignInAlt from "@fortawesome/fontawesome-free-solid/faSignInAlt";
+import faSignOutAlt from "@fortawesome/fontawesome-free-solid/faSignOutAlt";
 
 // Header component
 export default class Header extends React.Component {
@@ -19,7 +20,21 @@ export default class Header extends React.Component {
       isOpen: !this.state.isOpen,
     });
   }
+
+  loggedIn() {
+    // Checks if there is a saved token and it's still valid
+    const token = localStorage.getItem("jwtToken");
+    return !!token;
+  }
+
+  logout() {
+    localStorage.removeItem("jwtToken");
+    window.location.reload();
+  }
+
   render() {
+    let loggedIn = this.loggedIn();
+
     return (
       <div>
         <Navbar expand="md">
@@ -29,9 +44,12 @@ export default class Header extends React.Component {
             <Nav className="ml-auto" navbar />
 
             <NavLink href="/add">Ajouter</NavLink>
-            <NavLink href="/login">
-              <FontAwesomeIcon icon={faSignInAlt} />
-            </NavLink>
+            {!loggedIn && (
+              <NavLink href="/login">
+                <FontAwesomeIcon icon={faSignInAlt} />
+              </NavLink>
+            )}
+            {loggedIn && <FontAwesomeIcon icon={faSignOutAlt} onClick={() => this.logout()} />}
           </Collapse>
         </Navbar>
       </div>

@@ -24,21 +24,17 @@ class JobOffersList extends Component {
 
   //when we click on the trash button of the preview, we delete this job offer thanks to the api
   deleteJobOffer = id => {
-    fetch("/jobOffers/" + id, {
-      method: "DELETE",
-    })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(body => {
-        if (body.message) {
-          this.setState({ errorMessage: body.message });
-        } else {
-          let jobOfferList = this.state.jobOfferList.slice();
-          jobOfferList = jobOfferList.filter(jobOffer => jobOffer._id !== id);
-          this.setState({ jobOfferList: jobOfferList, successMessage: "L'offre d'emploi vient d'être supprimée" });
-        }
-      });
+    axios.defaults.headers.common["Authorization"] = localStorage.getItem("jwtToken");
+
+    axios.delete("/jobOffers/" + id).then(response => {
+      if (response.data.message) {
+        this.setState({ errorMessage: response.data.message });
+      } else {
+        let jobOfferList = this.state.jobOfferList.slice();
+        jobOfferList = jobOfferList.filter(jobOffer => jobOffer._id !== id);
+        this.setState({ jobOfferList: jobOfferList, successMessage: "L'offre d'emploi vient d'être supprimée" });
+      }
+    });
   };
 
   //For each job offer, we create a JobOfferPreview component

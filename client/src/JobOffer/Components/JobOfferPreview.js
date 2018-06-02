@@ -53,20 +53,28 @@ class JobOfferPreview extends Component {
     });
   };
 
+  loggedIn() {
+    // Checks if there is a saved token and it's still valid
+    const token = localStorage.getItem("jwtToken");
+    return !!token;
+  }
+
   render() {
     const { _id, title, company, city, jobDescription } = this.props.jobOffer;
-
+    let loggedIn = this.loggedIn();
     return (
       <div className="jobOffer">
         <a href={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </a>
-        <FontAwesomeIcon
-          icon={faTrashAlt}
-          color="red"
-          className="float-right deleteJobOfferIcon"
-          onClick={() => this.deleteJobOffer(_id)}
-        />
+        {loggedIn && (
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            color="red"
+            className="float-right deleteJobOfferIcon"
+            onClick={() => this.deleteJobOffer(_id)}
+          />
+        )}
         <br />
         <span className="subtitle">
           {company},{city}
