@@ -42,8 +42,9 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar />
-
-            <NavLink href="/add">Ajouter</NavLink>
+            {loggedIn &&
+              <NavLink href="/add">Ajouter</NavLink>
+            }
             {!loggedIn && (
               <NavLink href="/login">
                 <FontAwesomeIcon icon={faSignInAlt} />
