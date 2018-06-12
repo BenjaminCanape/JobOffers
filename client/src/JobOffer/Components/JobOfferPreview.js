@@ -60,14 +60,22 @@ class JobOfferPreview extends Component {
   }
 
   render() {
-    const { _id, title, company, city, jobDescription } = this.props.jobOffer;
+    const { currentUser } = this.props;
+    const { _id, title, company, city, jobDescription, author } = this.props.jobOffer;
+
+    let isCurrentUser = false;
+
+    if(currentUser){
+      isCurrentUser = currentUser._id === author;
+    }
+
     let loggedIn = this.loggedIn();
     return (
       <div className="jobOffer">
         <a href={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </a>
-        {loggedIn && (
+        {loggedIn && isCurrentUser && (
           <FontAwesomeIcon
             icon={faTrashAlt}
             color="red"

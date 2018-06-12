@@ -31,6 +31,13 @@ class ViewJobOfferPage extends Component {
     const { jobOffer } = this.state;
     let loggedIn = this.loggedIn();
 
+    const currentUser = JSON.parse(localStorage.getItem("user"));
+    let isCurrentUser = false;
+
+    if(currentUser){
+      isCurrentUser = currentUser._id === jobOffer.author;
+    }
+
     return (
       <div className="container">
         <a href="/"> Retour à la liste</a>
@@ -39,7 +46,7 @@ class ViewJobOfferPage extends Component {
         <span className="jobOfferTitle">{jobOffer.title}</span>
         <span className="float-right">
           <a href={`/edit/${this.props.match.params.id}`}>
-            {loggedIn && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
+            {loggedIn && isCurrentUser && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
           </a>
         </span>
         <br />

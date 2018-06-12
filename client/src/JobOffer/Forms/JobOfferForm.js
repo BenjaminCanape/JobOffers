@@ -12,7 +12,7 @@ class JobOfferForm extends Component {
       contractType: "",
       wage: 0,
       companyDescription: "",
-      jobDescription: "",
+      jobDescription: ""
     },
   };
 
@@ -25,7 +25,7 @@ class JobOfferForm extends Component {
       contractType: PropTypes.string,
       wage: PropTypes.number,
       companyDescription: PropTypes.string,
-      jobDescription: PropTypes.string,
+      jobDescription: PropTypes.string
     }),
   };
 
@@ -38,7 +38,7 @@ class JobOfferForm extends Component {
       contractType: "",
       wage: 0,
       companyDescription: "",
-      jobDescription: "",
+      jobDescription: ""
     };
   }
 
@@ -70,6 +70,7 @@ class JobOfferForm extends Component {
       companyDescription: this.state.companyDescription,
       contractType: this.state.contractType,
       wage: this.state.wage,
+      author: JSON.parse(localStorage.getItem("user")),
     };
 
     this.props.onFormSubmit(jobOffer);

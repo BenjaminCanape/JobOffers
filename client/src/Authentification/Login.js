@@ -4,13 +4,14 @@ import FlashMessage from "../JobOffer/Components/FlashMessage";
 import axios from "axios";
 
 class Login extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       email: "",
       password: "",
       successMessage: "",
       errorMessage: "",
+      connectedUser: this.props.connectedUser
     };
   }
 
@@ -31,7 +32,9 @@ class Login extends Component {
       .then(result => {
         //save the token
         localStorage.setItem("jwtToken", result.data.token);
-        this.setState({ successMessage: "Bienvenue" });
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+        
+        this.setState({ successMessage: "Bienvenue", "connectedUser": result.data.user });
         this.props.history.push("/");
       })
       .catch(error => {

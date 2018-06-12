@@ -11,6 +11,7 @@ class JobOffersList extends Component {
       jobOfferList: [],
       successMessage: "",
       errorMessage: "",
+      currentUser: JSON.parse(localStorage.getItem("user"))
     };
   }
 
@@ -39,13 +40,13 @@ class JobOffersList extends Component {
 
   //For each job offer, we create a JobOfferPreview component
   render() {
-    const { jobOfferList } = this.state;
+    const { jobOfferList, currentUser } = this.state;
     return (
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
         {jobOfferList.length ? (
           jobOfferList.map(jobOffer => (
-            <JobOfferPreview key={jobOffer._id} jobOffer={jobOffer} deleteJobOffer={this.deleteJobOffer} />
+            <JobOfferPreview key={jobOffer._id} jobOffer={jobOffer} deleteJobOffer={this.deleteJobOffer} currentUser={currentUser} />
           ))
         ) : (
           <span> Aucune offre</span>
