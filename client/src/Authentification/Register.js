@@ -19,13 +19,14 @@ class Create extends Component {
     this.setState(state);
   };
 
+
   //on form submit, the backend will try to create the user
   onSubmit = e => {
     e.preventDefault();
 
-    const { email, password, firstName, lastName } = this.state;
+    const { email, password, firstName, lastName, isRecruiter } = this.state;
 
-    axios.post("/users/register", { email, password, firstName, lastName }).then(result => {
+    axios.post("/users/register", { email, password, firstName, lastName, isRecruiter }).then(result => {
       this.props.history.push("/login");
     });
   };
@@ -70,6 +71,30 @@ class Create extends Component {
             value={this.state.lastName}
             onChange={this.onChange}
           />
+          <br/>
+          Je suis un &nbsp;&nbsp;&nbsp;
+          <label>
+            <input 
+              type="radio" 
+              required 
+              name="isRecruiter" 
+              value={false} 
+              onChange={this.onChange}
+            />&nbsp;
+            Candidat
+          </label>
+          &nbsp;&nbsp;
+          <label>
+            <input 
+              type="radio" 
+              required 
+              name="isRecruiter" 
+              value={true} 
+              onChange={this.onChange}
+            />&nbsp;
+            Recruteur
+          </label>
+
           <br />
           <br />
           <button className="btn btn-primary" type="submit">
