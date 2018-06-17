@@ -8,6 +8,7 @@ import JobOffersList from "./JobOffer/Pages/JobOffersList";
 import AddJobOffer from "./JobOffer/Pages/AddJobOffer";
 import EditJobOffer from "./JobOffer/Pages/EditJobOffer";
 import ViewJobOffer from "./JobOffer/Pages/ViewJobOffer";
+import RecuiterOffers from "./JobOffer/Pages/RecuiterOffers"
 
 //get the routes
 const Routes = () => (
@@ -16,6 +17,7 @@ const Routes = () => (
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
       <Route exact path="/" component={JobOffersList} />
+      <Route path="/myOffers" component={RecuiterOffers} />
       <Route path="/add" component={AddJobOffer} />
       <Route path="/view/:id" component={ViewJobOffer} />
       <Route path="/edit/:id" component={EditJobOffer} />

@@ -13,6 +13,14 @@ router.get("/", function(req, res, next) {
   });
 });
 
+/* GET jobOffers by author. */
+router.get("/user/:author", function(req, res, next) {
+  JobOffer.find({ 'author': req.params.author} ,function(err, jobOffers) {
+    if (err) return next(err);
+    res.json(jobOffers);
+  });
+});
+
 /* GET One jobOffer by id */
 router.get("/:id", function(req, res, next) {
   JobOffer.findById(req.params.id, function(err, jobOffer) {

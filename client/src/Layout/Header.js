@@ -48,6 +48,7 @@ export default class Header extends React.Component {
 
   render() {
     let loggedIn = this.loggedIn();
+    let isRecruiter = this.isRecruiter();
 
     return (
       <div>
@@ -58,7 +59,10 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar />
-            { this.isRecruiter() &&
+            { isRecruiter &&
+              <NavLink href="/myOffers">Mes offres</NavLink>
+            }
+            { isRecruiter &&
               <NavLink href="/add">Ajouter</NavLink>
             }
             {!loggedIn && (
