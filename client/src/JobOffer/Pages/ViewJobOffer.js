@@ -27,6 +27,23 @@ class ViewJobOfferPage extends Component {
     return !!token;
   }
 
+  getConnectedUser() {
+    return JSON.parse(localStorage.getItem("user"));
+  }
+
+  isCandidate(){
+    if (this.loggedIn()){
+      let user = this.getConnectedUser();
+      return !user.isRecruiter;
+    }
+
+    return false;
+  }
+
+  applyToThisJobOffer(){
+
+  }
+
   render() {
     const { jobOffer } = this.state;
     let loggedIn = this.loggedIn();
@@ -70,6 +87,15 @@ class ViewJobOfferPage extends Component {
           Description de l'emploi : <br />
           {jobOffer.jobDescription}
         </span>
+        <br/><br/>
+        { this.isCandidate() &&           
+          <button 
+            className="btn btn-default apply" 
+            onClick={this.applyToThisJobOffer()}
+          > 
+            Postuler 
+          </button>
+        }
       </div>
     );
   }

@@ -25,6 +25,15 @@ export default class Header extends React.Component {
     return JSON.parse(localStorage.getItem("user"));
   }
 
+  isRecruiter(){
+    if (this.loggedIn()){
+      let user = this.getConnectedUser();
+      return user.isRecruiter;
+    }
+
+    return false;
+  }
+
   loggedIn() {
     // Checks if there is a saved token and it's still valid
     const token = localStorage.getItem("jwtToken");
@@ -49,7 +58,7 @@ export default class Header extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar />
-            {loggedIn &&
+            { this.isRecruiter() &&
               <NavLink href="/add">Ajouter</NavLink>
             }
             {!loggedIn && (
