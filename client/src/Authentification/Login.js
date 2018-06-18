@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import FlashMessage from "../JobOffer/Components/FlashMessage";
-import axios from "axios";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import FlashMessage from '../JobOffer/Components/FlashMessage';
+import axios from 'axios';
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
-      password: "",
-      successMessage: "",
-      errorMessage: "",
-      connectedUser: this.props.connectedUser
+      email: '',
+      password: '',
+      successMessage: '',
+      errorMessage: '',
+      connectedUser: this.props.connectedUser,
     };
   }
 
@@ -28,18 +28,21 @@ class Login extends Component {
     const { email, password } = this.state;
 
     axios
-      .post("/users/login", { email, password })
+      .post('/users/login', { email, password })
       .then(result => {
         //save the token
-        localStorage.setItem("jwtToken", result.data.token);
-        localStorage.setItem("user", JSON.stringify(result.data.user));
-        
-        this.setState({ successMessage: "Bienvenue", "connectedUser": result.data.user });
-        this.props.history.push("/");
+        localStorage.setItem('jwtToken', result.data.token);
+        localStorage.setItem('user', JSON.stringify(result.data.user));
+
+        this.setState({
+          successMessage: 'Bienvenue',
+          connectedUser: result.data.user,
+        });
+        this.props.history.push('/');
       })
       .catch(error => {
         if (error.response.status === 401) {
-          this.setState({ errorMessage: "Email ou Mot de passe invalide" });
+          this.setState({ errorMessage: 'Email ou Mot de passe invalide' });
         }
       });
   };

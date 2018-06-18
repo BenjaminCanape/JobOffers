@@ -1,12 +1,12 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import registerServiceWorker from "./registerServiceWorker";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import registerServiceWorker from './registerServiceWorker';
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./index.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
 
-import App from "./App";
-import Routes from "./Routes";
+import App from './App';
+import Routes from './Routes';
 
 //Main Layout and route definition
 ReactDOM.render(
@@ -14,6 +14,6 @@ ReactDOM.render(
 		<App />
 		<Routes />
 	</div>,
-	document.getElementById("root")
+	document.getElementById('root')
 );
 registerServiceWorker();

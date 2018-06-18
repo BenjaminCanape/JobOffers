@@ -1,9 +1,9 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 
 var JobOfferSchema = new mongoose.Schema({
 	author: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
 	title: { type: String, required: true },
-	contractType: { type: String, enum: ["", "CDI", "CDD", "Stage", "Alternance", "Apprentissage"] },
+	contractType: { type: String, enum: ['', 'CDI', 'CDD', 'Stage', 'Alternance', 'Apprentissage'] },
 	city: { type: String, required: true },
 	company: { type: String, required: true },
 	companyDescription: { type: String },
@@ -13,4 +13,4 @@ var JobOfferSchema = new mongoose.Schema({
 	updateDate: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model("JobOffer", JobOfferSchema);
+module.exports = mongoose.model('JobOffer', JobOfferSchema);

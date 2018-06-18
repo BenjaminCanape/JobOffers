@@ -1,21 +1,21 @@
-import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faTrashAlt from "@fortawesome/fontawesome-free-solid/faTrashAlt";
-import PropTypes from "prop-types";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
+import React, { Component } from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faTrashAlt from '@fortawesome/fontawesome-free-solid/faTrashAlt';
+import PropTypes from 'prop-types';
+import { confirmAlert } from 'react-confirm-alert';
+import 'react-confirm-alert/src/react-confirm-alert.css';
 
-import "./JobOfferPreview.css";
+import './JobOfferPreview.css';
 
 //component to print a job offer preview, used in the job offer list
 class JobOfferPreview extends Component {
   static defaultProps = {
     jobOffer: {
-      _id: "",
-      title: "",
-      company: "",
-      city: "",
-      jobDescription: "",
+      _id: '',
+      title: '',
+      company: '',
+      city: '',
+      jobDescription: '',
     },
   };
 
@@ -34,20 +34,20 @@ class JobOfferPreview extends Component {
   //param description: String
   //return String
   getShortDescription(description) {
-    return description ? description.substring(0, 100) + (description.length > 100 ? "..." : "") : "";
+    return description ? description.substring(0, 100) + (description.length > 100 ? '...' : '') : '';
   }
 
   deleteJobOffer = id => {
     confirmAlert({
-      title: "Confirmation",
-      message: "Etes-vous sûr de vouloir supprimer cette offre ?",
+      title: 'Confirmation',
+      message: 'Etes-vous sûr de vouloir supprimer cette offre ?',
       buttons: [
         {
-          label: "Oui",
+          label: 'Oui',
           onClick: () => this.props.deleteJobOffer(id),
         },
         {
-          label: "Non",
+          label: 'Non',
         },
       ],
     });
@@ -55,7 +55,7 @@ class JobOfferPreview extends Component {
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem('jwtToken');
     return !!token;
   }
 
@@ -65,7 +65,7 @@ class JobOfferPreview extends Component {
 
     let isCurrentUser = false;
 
-    if(currentUser){
+    if (currentUser) {
       isCurrentUser = currentUser._id === author;
     }
 
@@ -75,14 +75,15 @@ class JobOfferPreview extends Component {
         <a href={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </a>
-        {loggedIn && isCurrentUser && (
-          <FontAwesomeIcon
-            icon={faTrashAlt}
-            color="red"
-            className="float-right deleteJobOfferIcon"
-            onClick={() => this.deleteJobOffer(_id)}
-          />
-        )}
+        {loggedIn &&
+          isCurrentUser && (
+            <FontAwesomeIcon
+              icon={faTrashAlt}
+              color="red"
+              className="float-right deleteJobOfferIcon"
+              onClick={() => this.deleteJobOffer(_id)}
+            />
+          )}
         <br />
         <span className="subtitle">
           {company},{city}

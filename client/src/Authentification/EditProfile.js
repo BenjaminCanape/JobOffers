@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import FlashMessage from '../JobOffer/Components/FlashMessage';
 
-class Create extends Component {
+class EditProfile extends Component {
   constructor() {
     super();
+
+    let user = JSON.parse(localStorage.getItem('user'));
+
     this.state = {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      isRecruiter: false,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      isRecruiter: user.isRecruiter,
+      user: user,
+      successMessage: '',
+      errorMessage: '',
     };
   }
 
@@ -23,18 +29,19 @@ class Create extends Component {
   onSubmit = e => {
     e.preventDefault();
 
-    const { email, password, firstName, lastName, isRecruiter } = this.state;
+    const { email, firstName, lastName, isRecruiter } = this.state;
 
+    axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
     axios
-      .post('/users/register', {
+      .put('/users/edit/' + this.state.user._id, {
         email,
-        password,
         firstName,
         lastName,
         isRecruiter,
       })
       .then(result => {
-        this.props.history.push('/login');
+        localStorage.setItem('user', JSON.stringify(result.data.user));
+        this.setState({ user: result.data.user, successMessage: 'Profil modifié' });
       });
   };
 
@@ -42,23 +49,15 @@ class Create extends Component {
   render() {
     return (
       <div className="container">
+        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
         <form className="form-signin" onSubmit={this.onSubmit}>
-          <h2 className="form-signin-heading">Création d'un compte</h2>
+          <h2 className="form-signin-heading">Modifier mon profil</h2>
           <label htmlFor="email">E-mail</label>
           <input
             type="email"
             className="form-control"
             name="email"
             value={this.state.email}
-            onChange={this.onChange}
-            required
-          />
-          <label htmlFor="password">Mot de passe</label>
-          <input
-            type="password"
-            className="form-control"
-            name="password"
-            value={this.state.password}
             onChange={this.onChange}
             required
           />
@@ -81,16 +80,30 @@ class Create extends Component {
           <br />
           Je suis un &nbsp;&nbsp;&nbsp;
           <label>
-            <input type="radio" required name="isRecruiter" value={false} onChange={this.onChange} />&nbsp; Candidat
+            <input
+              type="radio"
+              required
+              name="isRecruiter"
+              defaultChecked={!this.state.isRecruiter}
+              value={false}
+              onChange={this.onChange}
+            />&nbsp; Candidat
           </label>
           &nbsp;&nbsp;
           <label>
-            <input type="radio" required name="isRecruiter" value={true} onChange={this.onChange} />&nbsp; Recruteur
+            <input
+              type="radio"
+              required
+              name="isRecruiter"
+              defaultChecked={this.state.isRecruiter}
+              value={true}
+              onChange={this.onChange}
+            />&nbsp; Recruteur
           </label>
           <br />
           <br />
           <button className="btn btn-primary" type="submit">
-            Création
+            Modifier
           </button>
         </form>
       </div>
@@ -98,4 +111,4 @@ class Create extends Component {
   }
 }
 
-export default Create;
+export default EditProfile;

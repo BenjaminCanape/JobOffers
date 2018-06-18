@@ -1,18 +1,18 @@
-import React, { Component } from "react";
-import FontAwesomeIcon from "@fortawesome/react-fontawesome";
-import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
+import React, { Component } from 'react';
+import FontAwesomeIcon from '@fortawesome/react-fontawesome';
+import faEdit from '@fortawesome/fontawesome-free-solid/faEdit';
 
 //page where we can view a job offer
 class ViewJobOfferPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { successMessage: "", errorMessage: "", jobOffer: {} };
+    this.state = { successMessage: '', errorMessage: '', jobOffer: {} };
   }
 
   //when the component is mount, we call the api toget the previously saved infos about this job offer
   //and update the local state to update the form
   componentDidMount() {
-    fetch("/jobOffers/" + this.props.match.params.id)
+    fetch('/jobOffers/' + this.props.match.params.id)
       .then(function(response) {
         return response.json();
       })
@@ -23,16 +23,16 @@ class ViewJobOfferPage extends Component {
 
   loggedIn() {
     // Checks if there is a saved token and it's still valid
-    const token = localStorage.getItem("jwtToken");
+    const token = localStorage.getItem('jwtToken');
     return !!token;
   }
 
   getConnectedUser() {
-    return JSON.parse(localStorage.getItem("user"));
+    return JSON.parse(localStorage.getItem('user'));
   }
 
-  isCandidate(){
-    if (this.loggedIn()){
+  isCandidate() {
+    if (this.loggedIn()) {
       let user = this.getConnectedUser();
       return !user.isRecruiter;
     }
@@ -40,18 +40,16 @@ class ViewJobOfferPage extends Component {
     return false;
   }
 
-  applyToThisJobOffer(){
-
-  }
+  applyToThisJobOffer() {}
 
   render() {
     const { jobOffer } = this.state;
     let loggedIn = this.loggedIn();
 
-    const currentUser = JSON.parse(localStorage.getItem("user"));
+    const currentUser = JSON.parse(localStorage.getItem('user'));
     let isCurrentUser = false;
 
-    if(currentUser){
+    if (currentUser) {
       isCurrentUser = currentUser._id === jobOffer.author;
     }
 
@@ -87,15 +85,13 @@ class ViewJobOfferPage extends Component {
           Description de l'emploi : <br />
           {jobOffer.jobDescription}
         </span>
-        <br/><br/>
-        { this.isCandidate() &&           
-          <button 
-            className="btn btn-default apply" 
-            onClick={this.applyToThisJobOffer()}
-          > 
-            Postuler 
+        <br />
+        <br />
+        {this.isCandidate() && (
+          <button className="btn btn-default apply" onClick={this.applyToThisJobOffer()}>
+            Postuler
           </button>
-        }
+        )}
       </div>
     );
   }

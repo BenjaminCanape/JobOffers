@@ -1,14 +1,15 @@
-import React from "react";
-import { BrowserRouter as ReactRouter, Route } from "react-router-dom";
+import React from 'react';
+import { BrowserRouter as ReactRouter, Route } from 'react-router-dom';
 
-import LoginPage from "./Authentification/Login";
-import RegisterPage from "./Authentification/Register";
+import LoginPage from './Authentification/Login';
+import RegisterPage from './Authentification/Register';
 
-import JobOffersList from "./JobOffer/Pages/JobOffersList";
-import AddJobOffer from "./JobOffer/Pages/AddJobOffer";
-import EditJobOffer from "./JobOffer/Pages/EditJobOffer";
-import ViewJobOffer from "./JobOffer/Pages/ViewJobOffer";
-import RecuiterOffers from "./JobOffer/Pages/RecuiterOffers"
+import JobOffersList from './JobOffer/Pages/JobOffersList';
+import AddJobOffer from './JobOffer/Pages/AddJobOffer';
+import EditJobOffer from './JobOffer/Pages/EditJobOffer';
+import ViewJobOffer from './JobOffer/Pages/ViewJobOffer';
+import RecuiterOffers from './JobOffer/Pages/RecuiterOffers';
+import EditProfile from './Authentification/EditProfile';
 
 //get the routes
 const Routes = () => (
@@ -16,6 +17,7 @@ const Routes = () => (
     <div className="container">
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
+      <Route path="/myprofile" component={EditProfile} />
       <Route exact path="/" component={JobOffersList} />
       <Route path="/myOffers" component={RecuiterOffers} />
       <Route path="/add" component={AddJobOffer} />
