@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+
 //Form component, the form to create or update a job offer
 class JobOfferForm extends Component {
   static defaultProps = {
@@ -39,7 +41,26 @@ class JobOfferForm extends Component {
       wage: 0,
       companyDescription: '',
       jobDescription: '',
+      currentUser: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
     };
+  }
+
+  componentDidMount() {
+    AuthentificationStore.addChangeListener(this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    AuthentificationStore.removeChangeListener(this._onChange.bind(this));
+  }
+
+  _onChange() {
+    this.setState({
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      currentUser: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+    });
   }
 
   //when the component is re-rendered, if the defaultJobOffer prop is set the local state update
@@ -70,7 +91,7 @@ class JobOfferForm extends Component {
       companyDescription: this.state.companyDescription,
       contractType: this.state.contractType,
       wage: this.state.wage,
-      author: JSON.parse(localStorage.getItem('user')),
+      author: this.state.currentUser,
     };
 
     this.props.onFormSubmit(jobOffer);

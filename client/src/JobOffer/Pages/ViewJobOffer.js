@@ -2,16 +2,26 @@ import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faEdit from '@fortawesome/fontawesome-free-solid/faEdit';
 
+import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+
 //page where we can view a job offer
 class ViewJobOfferPage extends Component {
   constructor(props) {
     super(props);
-    this.state = { successMessage: '', errorMessage: '', jobOffer: {} };
+    this.state = {
+      successMessage: '',
+      errorMessage: '',
+      jobOffer: {},
+      user: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+    };
   }
 
   //when the component is mount, we call the api toget the previously saved infos about this job offer
   //and update the local state to update the form
   componentDidMount() {
+    AuthentificationStore.addChangeListener(this._onChange.bind(this));
     fetch('/jobOffers/' + this.props.match.params.id)
       .then(function(response) {
         return response.json();
@@ -21,19 +31,21 @@ class ViewJobOfferPage extends Component {
       });
   }
 
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
-    const token = localStorage.getItem('jwtToken');
-    return !!token;
+  componentWillUnmount() {
+    AuthentificationStore.removeChangeListener(this._onChange.bind(this));
   }
 
-  getConnectedUser() {
-    return JSON.parse(localStorage.getItem('user'));
+  _onChange() {
+    this.setState({
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      user: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+    });
   }
 
   isCandidate() {
-    if (this.loggedIn()) {
-      let user = this.getConnectedUser();
+    if (this.state.userLoggedIn) {
+      let user = this.state.user;
       return !user.isRecruiter;
     }
 
@@ -43,14 +55,12 @@ class ViewJobOfferPage extends Component {
   applyToThisJobOffer() {}
 
   render() {
-    const { jobOffer } = this.state;
-    let loggedIn = this.loggedIn();
+    const { jobOffer, user } = this.state;
 
-    const currentUser = JSON.parse(localStorage.getItem('user'));
     let isCurrentUser = false;
 
-    if (currentUser) {
-      isCurrentUser = currentUser._id === jobOffer.author;
+    if (user) {
+      isCurrentUser = this.state.user._id === jobOffer.author;
     }
 
     return (
@@ -61,7 +71,8 @@ class ViewJobOfferPage extends Component {
         <span className="jobOfferTitle">{jobOffer.title}</span>
         <span className="float-right">
           <a href={`/edit/${this.props.match.params.id}`}>
-            {loggedIn && isCurrentUser && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
+            {this.state.userLoggedIn &&
+              isCurrentUser && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
           </a>
         </span>
         <br />

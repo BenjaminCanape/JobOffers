@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import FlashMessage from '../JobOffer/Components/FlashMessage';
-import axios from 'axios';
+import FlashMessage from '../../JobOffer/Components/FlashMessage';
+import AuthentificationService from '../services/AuthentificationService';
 
 class Login extends Component {
   constructor(props) {
@@ -11,7 +11,6 @@ class Login extends Component {
       password: '',
       successMessage: '',
       errorMessage: '',
-      connectedUser: this.props.connectedUser,
     };
   }
 
@@ -27,16 +26,10 @@ class Login extends Component {
 
     const { email, password } = this.state;
 
-    axios
-      .post('/users/login', { email, password })
-      .then(result => {
-        //save the token
-        localStorage.setItem('jwtToken', result.data.token);
-        localStorage.setItem('user', JSON.stringify(result.data.user));
-
+    AuthentificationService.login(email, password)
+      .then(() => {
         this.setState({
           successMessage: 'Bienvenue',
-          connectedUser: result.data.user,
         });
         this.props.history.push('/');
       })

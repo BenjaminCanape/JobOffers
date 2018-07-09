@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import FlashMessage from '../JobOffer/Components/FlashMessage';
+import FlashMessage from '../../JobOffer/Components/FlashMessage';
+
+import AuthentificationStore from '../stores/AuthentificationStore';
 
 class EditProfile extends Component {
   constructor() {
     super();
-
-    let user = JSON.parse(localStorage.getItem('user'));
+    let user = AuthentificationStore.user;
 
     this.state = {
       email: user.email,
@@ -14,9 +15,23 @@ class EditProfile extends Component {
       lastName: user.lastName,
       isRecruiter: user.isRecruiter,
       user: user,
+      jwt: AuthentificationStore.jwt,
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
       successMessage: '',
       errorMessage: '',
     };
+  }
+
+  componentDidMount() {
+    AuthentificationStore.addChangeListener(this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    AuthentificationStore.removeChangeListener(this._onChange.bind(this));
+  }
+
+  _onChange() {
+    this.setState({ jwt: AuthentificationStore.jwt });
   }
 
   onChange = e => {
@@ -31,7 +46,7 @@ class EditProfile extends Component {
 
     const { email, firstName, lastName, isRecruiter } = this.state;
 
-    axios.defaults.headers.common['Authorization'] = localStorage.getItem('jwtToken');
+    axios.defaults.headers.common['Authorization'] = this.state.jwt;
     axios
       .put('/users/edit/' + this.state.user._id, {
         email,

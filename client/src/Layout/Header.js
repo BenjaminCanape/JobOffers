@@ -5,6 +5,9 @@ import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSignInAlt from '@fortawesome/fontawesome-free-solid/faSignInAlt';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
 
+import AuthentificationStore from '../Authentification/stores/AuthentificationStore';
+import AuthentificationService from '../Authentification/services/AuthentificationService';
+
 // Header component
 export default class Header extends React.Component {
   constructor(props) {
@@ -13,8 +16,23 @@ export default class Header extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      user: AuthentificationStore.user,
     };
   }
+
+  componentDidMount() {
+    AuthentificationStore.addChangeListener(this._onChange.bind(this));
+  }
+
+  componentWillUnmount() {
+    AuthentificationStore.removeChangeListener(this._onChange.bind(this));
+  }
+
+  _onChange() {
+    this.setState({ userLoggedIn: AuthentificationStore.isLoggedIn(), user: AuthentificationStore.user });
+  }
+
   toggle() {
     this.setState({
       isOpen: !this.state.isOpen,
@@ -22,11 +40,11 @@ export default class Header extends React.Component {
   }
 
   getConnectedUser() {
-    return JSON.parse(localStorage.getItem('user'));
+    return this.state.user;
   }
 
   isRecruiter() {
-    if (this.loggedIn()) {
+    if (this.state.userLoggedIn) {
       let user = this.getConnectedUser();
       return user.isRecruiter;
     }
@@ -34,20 +52,11 @@ export default class Header extends React.Component {
     return false;
   }
 
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
-    const token = localStorage.getItem('jwtToken');
-    return !!token;
-  }
-
   logout() {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('user');
-    window.location.reload();
+    AuthentificationService.logout();
   }
 
   render() {
-    let loggedIn = this.loggedIn();
     let isRecruiter = this.isRecruiter();
 
     return (
@@ -61,13 +70,13 @@ export default class Header extends React.Component {
             <Nav className="ml-auto" navbar />
             {isRecruiter && <NavLink href="/myOffers">Mes offres</NavLink>}
             {isRecruiter && <NavLink href="/add">Ajouter</NavLink>}
-            {loggedIn && <NavLink href="/myprofile">Mon profil</NavLink>}
-            {!loggedIn && (
+            {this.state.userLoggedIn && <NavLink href="/myprofile">Mon profil</NavLink>}
+            {!this.state.userLoggedIn && (
               <NavLink href="/login">
                 <FontAwesomeIcon icon={faSignInAlt} />
               </NavLink>
             )}
-            {loggedIn && <FontAwesomeIcon icon={faSignOutAlt} onClick={() => this.logout()} />}
+            {this.state.userLoggedIn && <FontAwesomeIcon icon={faSignOutAlt} onClick={() => this.logout()} />}
           </Collapse>
         </Navbar>
       </div>

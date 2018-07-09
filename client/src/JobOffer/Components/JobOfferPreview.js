@@ -7,6 +7,8 @@ import 'react-confirm-alert/src/react-confirm-alert.css';
 
 import './JobOfferPreview.css';
 
+import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+
 //component to print a job offer preview, used in the job offer list
 class JobOfferPreview extends Component {
   static defaultProps = {
@@ -29,6 +31,31 @@ class JobOfferPreview extends Component {
       jobDescription: PropTypes.string.isRequired,
     }),
   };
+
+  constructor() {
+    super();
+
+    this.state = {
+      currentUser: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+    };
+  }
+
+  componentDidMount() {
+    AuthentificationStore.addChangeListener(this._onChange.bind(this));
+  }
+  componentWillUnmount() {
+    AuthentificationStore.removeChangeListener(this._onChange.bind(this));
+  }
+
+  _onChange() {
+    this.setState({
+      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      currentUser: AuthentificationStore.user,
+      jwt: AuthentificationStore.jwt,
+    });
+  }
 
   //Get the short version of the job description
   //param description: String
@@ -53,12 +80,6 @@ class JobOfferPreview extends Component {
     });
   };
 
-  loggedIn() {
-    // Checks if there is a saved token and it's still valid
-    const token = localStorage.getItem('jwtToken');
-    return !!token;
-  }
-
   render() {
     const { currentUser } = this.props;
     const { _id, title, company, city, jobDescription, author } = this.props.jobOffer;
@@ -69,13 +90,12 @@ class JobOfferPreview extends Component {
       isCurrentUser = currentUser._id === author;
     }
 
-    let loggedIn = this.loggedIn();
     return (
       <div className="jobOffer">
         <a href={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </a>
-        {loggedIn &&
+        {this.state.userLoggedIn &&
           isCurrentUser && (
             <FontAwesomeIcon
               icon={faTrashAlt}
