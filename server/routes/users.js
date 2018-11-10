@@ -53,6 +53,36 @@ router.put('/edit/:id', passport.authenticate('jwt', { session: false }), functi
     }
 });
 
+router.put('/edit/:id/password', passport.authenticate('jwt', { session: false }), function(req, res) {
+    var token = getToken(req.headers);
+    if (token) {
+        User.findById(req.params.id, function(err, user) {
+            if (!user) return new Error('Utilisateur non trouvé');
+            else {
+                let newPassword = req.body.newPassword;
+
+                user.comparePassword(req.body.currentPassword, function(err, isMatch) {
+                    if (isMatch && !err) {
+                        user.password = req.body.newPassword;
+
+                        user.save(function(err) {
+                            if (err) console.log('erreur');
+                            else {
+                                console.log('Utilisateur modifié');
+                                res.json({ success: true, user: user });
+                            }
+                        });
+                    } else {
+                        res.status(401).send({ success: false, msg: 'Le mot de passe actuel n\'est pas correct' });
+                    }
+                });
+            }
+        });
+    } else {
+        return res.status(403).send({ success: false, msg: 'Non autorisé' });
+    }
+});
+
 router.post('/login', function(req, res) {
     User.findOne(
         {

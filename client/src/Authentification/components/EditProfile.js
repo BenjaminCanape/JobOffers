@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import FlashMessage from '../../JobOffer/Components/FlashMessage';
 
@@ -121,6 +122,9 @@ class EditProfile extends Component {
             Modifier
           </button>
         </form>
+        <br />
+        <br />
+        <Link to="/editPassword"> Modifier mon mot de passe</Link>
       </div>
     );
   }

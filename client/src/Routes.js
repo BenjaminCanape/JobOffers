@@ -10,6 +10,7 @@ import EditJobOffer from './JobOffer/Pages/EditJobOffer';
 import ViewJobOffer from './JobOffer/Pages/ViewJobOffer';
 import RecuiterOffers from './JobOffer/Pages/RecuiterOffers';
 import EditProfile from './Authentification/components/EditProfile';
+import EditPassword from './Authentification/components/EditPassword';
 
 //get the routes
 const Routes = () => (
@@ -18,6 +19,7 @@ const Routes = () => (
       <Route path="/login" component={LoginPage} />
       <Route path="/register" component={RegisterPage} />
       <Route path="/myprofile" component={EditProfile} />
+      <Route path="/editPassword" component={EditPassword} />
       <Route exact path="/" component={JobOffersList} />
       <Route path="/myOffers" component={RecuiterOffers} />
       <Route path="/add" component={AddJobOffer} />
