@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as ReactRouter, Route } from 'react-router-dom';
+import Header from './Layout/Header';
 
 import LoginPage from './Authentification/components/Login';
 import RegisterPage from './Authentification/components/Register';
@@ -14,17 +15,20 @@ import EditPassword from './Authentification/components/EditPassword';
 
 //get the routes
 const Routes = () => (
-  <ReactRouter>
-    <div className="container">
-      <Route path="/login" component={LoginPage} />
-      <Route path="/register" component={RegisterPage} />
-      <Route path="/myprofile" component={EditProfile} />
-      <Route path="/editPassword" component={EditPassword} />
-      <Route exact path="/" component={JobOffersList} />
-      <Route path="/myOffers" component={RecuiterOffers} />
-      <Route path="/add" component={AddJobOffer} />
-      <Route path="/view/:id" component={ViewJobOffer} />
-      <Route path="/edit/:id" component={EditJobOffer} />
+  <ReactRouter>    
+    <div>
+      <Header />
+      <div className="container">
+        <Route path="/login" component={LoginPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/myprofile" component={EditProfile} />
+        <Route path="/editPassword" component={EditPassword} />
+        <Route exact path="/" component={JobOffersList} />
+        <Route path="/myOffers" component={RecuiterOffers} />
+        <Route path="/add" component={AddJobOffer} />
+        <Route path="/view/:id" component={ViewJobOffer} />
+        <Route path="/edit/:id" component={EditJobOffer} />
+      </div>
     </div>
   </ReactRouter>
 );

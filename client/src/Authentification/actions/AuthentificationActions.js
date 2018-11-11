@@ -19,11 +19,14 @@ export default {
     });
   },
   logoutUser: () => {
-    localStorage.removeItem('jwtToken');
-    localStorage.removeItem('user');
+    return new Promise(function(resolve, reject){
+      localStorage.removeItem('jwtToken');
+      localStorage.removeItem('user');
 
-    AppDispatcher.dispatch({
-      actionType: 'LOGOUT_USER',
+      AppDispatcher.dispatch({
+        actionType: 'LOGOUT_USER',
+      });
+      resolve();
     });
   },
 };

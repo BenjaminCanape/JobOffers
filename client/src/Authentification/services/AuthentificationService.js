@@ -11,7 +11,7 @@ class AuthentificationService {
 	}
 
 	logout() {
-		AuthentificationAction.logoutUser();
+		return AuthentificationAction.logoutUser();
 	}
 }
 

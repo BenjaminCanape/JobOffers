@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import Header from './Layout/Header';
 
 import AuthentificateActions from './Authentification/actions/AuthentificationActions';
 
@@ -12,9 +11,7 @@ class App extends Component {
 		}
 
 		return (
-			<div>
-				<Header />
-			</div>
+			<div/>
 		);
 	}
 }

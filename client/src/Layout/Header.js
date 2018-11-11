@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavLink } from 'reactstrap';
+import {withRouter} from 'react-router-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSignInAlt from '@fortawesome/fontawesome-free-solid/faSignInAlt';
@@ -9,7 +10,7 @@ import AuthentificationStore from '../Authentification/stores/AuthentificationSt
 import AuthentificationService from '../Authentification/services/AuthentificationService';
 
 // Header component
-export default class Header extends React.Component {
+export default withRouter( class Header extends React.Component {
   constructor(props) {
     super(props);
 
@@ -52,8 +53,9 @@ export default class Header extends React.Component {
     return false;
   }
 
-  logout() {
-    AuthentificationService.logout();
+  async logout() {
+    var logout = await AuthentificationService.logout();
+    this.props.history.push('/');
   }
 
   render() {
@@ -83,3 +85,4 @@ export default class Header extends React.Component {
     );
   }
 }
+)
