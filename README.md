@@ -10,6 +10,10 @@ I intend to create an app where:
 
 I will use React.js / Express and MongoDB
 
+## Demo
+
+You can use this demo here: https://joboffers-benjamincanape.herokuapp.com/
+
 ## Getting Started
 
 ### Prerequisites
@@ -18,7 +22,7 @@ You need Node.js,npm and mongodb to install and run the app
 
 ### Installing
 
-To launch the app you need to open 3 tabs in terminal:
+To launch the app you need to open 2 tabs in terminal:
 
 The first one where you launch mongodb whith the command:
 
@@ -29,16 +33,8 @@ mongod
 Then in another tab, type these commands:
 
 ```
-cd server/
 npm install
-node app.js
-```
-
-Finaly, in the last tab:
-
-```
-cd client/
-npm install
+npm run client-install
 npm start
 ```
 

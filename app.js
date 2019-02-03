@@ -7,9 +7,9 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 
-var indexRouter = require('./routes/index');
 var jobOffersRouter = require('./routes/jobOffers');
 var usersRouter = require('./routes/users');
+require("dotenv").config();
 
 var app = express();
 const port = process.env.PORT || 5000;
@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 mongoose.Promise = global.Promise;
 
 mongoose
-	.connect('mongodb://localhost/jobOffers')
+	.connect(process.env.MONGODB_URI ||'mongodb://localhost/jobOffers')
 	.then(() => console.log('connection succesful'))
 	.catch(err => console.error(err));
 
@@ -31,9 +31,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
 app.use('/jobOffers', jobOffersRouter);
 app.use('/users', usersRouter);
+
+//Static file declaration
+app.use(express.static(path.join(__dirname, "client", "build")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

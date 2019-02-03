@@ -54,7 +54,7 @@ export default withRouter( class Header extends React.Component {
   }
 
   async logout() {
-    var logout = await AuthentificationService.logout();
+    await AuthentificationService.logout();
     this.props.history.push('/');
   }
 
