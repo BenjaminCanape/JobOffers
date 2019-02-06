@@ -64,8 +64,10 @@ class JobOffersList extends Component {
     const { jobOfferList, currentUser } = this.state;
     return (
       <div>
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
-        {jobOfferList.length ? (
+        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} /> 
+        <br/>
+        {jobOfferList.length && <h4> Voici les offres d'emploi disponibles :<br/><br/></h4>}       
+        {jobOfferList.length ? (          
           jobOfferList.map(jobOffer => (
             <JobOfferPreview
               key={jobOffer._id}
@@ -75,7 +77,7 @@ class JobOffersList extends Component {
             />
           ))
         ) : (
-          <span> Aucune offre</span>
+          <h4> Aucune offre d'emploi disponible.</h4>
         )}
       </div>
     );

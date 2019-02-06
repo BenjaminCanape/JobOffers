@@ -1,13 +1,19 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavLink } from 'reactstrap';
-import {withRouter} from 'react-router-dom';
+import { withRouter} from 'react-router-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSignInAlt from '@fortawesome/fontawesome-free-solid/faSignInAlt';
 import faSignOutAlt from '@fortawesome/fontawesome-free-solid/faSignOutAlt';
+import userCircle from '@fortawesome/fontawesome-free-solid/faUserCircle';
+import list from '@fortawesome/fontawesome-free-solid/faList';
+import plusSquare from '@fortawesome/fontawesome-free-solid/faPlusSquare';
+import home from '@fortawesome/fontawesome-free-solid/faHome';
 
 import AuthentificationStore from '../Authentification/stores/AuthentificationStore';
 import AuthentificationService from '../Authentification/services/AuthentificationService';
+
+import './Header.css';
 
 // Header component
 export default withRouter( class Header extends React.Component {
@@ -65,20 +71,22 @@ export default withRouter( class Header extends React.Component {
       <div>
         <Navbar expand="md">
           <NavbarBrand href="/">
-            {this.getConnectedUser() && <span>Bonjour {this.getConnectedUser().firstName}, </span>}
+            <FontAwesomeIcon icon={home} /> &nbsp;&nbsp;
+            {this.getConnectedUser() ? <span>Bonjour {this.getConnectedUser().firstName}, </span> : <span>Site d'offres d'emploi</span>}
           </NavbarBrand>
-          <NavbarToggler onClick={this.toggle} />
+          <NavbarToggler onClick={this.toggle} className="navbar-dark"/>
           <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar />
-            {isRecruiter && <NavLink href="/myOffers">Mes offres</NavLink>}
-            {isRecruiter && <NavLink href="/add">Ajouter</NavLink>}
-            {this.state.userLoggedIn && <NavLink href="/myprofile">Mon profil</NavLink>}
+            <Nav className="ml-auto" navbar >
+            {isRecruiter && <NavLink href="/myOffers"><FontAwesomeIcon icon={list} /> Mes offres</NavLink>}
+            {isRecruiter && <NavLink href="/add"><FontAwesomeIcon icon={plusSquare} /> Ajouter</NavLink>}
+            {this.state.userLoggedIn && <NavLink href="/myprofile"><FontAwesomeIcon icon={userCircle} /> Mon profil</NavLink>}
             {!this.state.userLoggedIn && (
               <NavLink href="/login">
-                <FontAwesomeIcon icon={faSignInAlt} />
+                <FontAwesomeIcon icon={faSignInAlt} /> Se connecter
               </NavLink>
             )}
-            {this.state.userLoggedIn && <FontAwesomeIcon icon={faSignOutAlt} onClick={() => this.logout()} />}
+            {this.state.userLoggedIn && <NavLink onClick={() => this.logout()}><FontAwesomeIcon icon={faSignOutAlt} /> Se déconnecter</NavLink>}
+            </ Nav>
           </Collapse>
         </Navbar>
       </div>
