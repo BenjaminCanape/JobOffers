@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faEdit from '@fortawesome/fontawesome-free-solid/faEdit';
+import { Link } from 'react-router-dom';
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -65,15 +66,15 @@ class ViewJobOfferPage extends Component {
 
     return (
       <div className="container">
-        <a href="/"> Retour à la liste</a>
+        <Link to="/">Retour à la liste</Link>
         <br />
         <br />
         <span className="jobOfferTitle">{jobOffer.title}</span>
         <span className="float-right">
-          <a href={`/edit/${this.props.match.params.id}`}>
+          <Link to={`/edit/${this.props.match.params.id}`}>
             {this.state.userLoggedIn &&
               isCurrentUser && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
-          </a>
+          </Link>
         </span>
         <br />
         <span className="subtitle">

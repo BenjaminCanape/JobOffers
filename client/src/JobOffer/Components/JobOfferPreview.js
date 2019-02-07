@@ -4,6 +4,7 @@ import faTrashAlt from '@fortawesome/fontawesome-free-solid/faTrashAlt';
 import PropTypes from 'prop-types';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import { Link } from 'react-router-dom';
 
 import './JobOfferPreview.css';
 
@@ -92,9 +93,9 @@ class JobOfferPreview extends Component {
 
     return (
       <div className="jobOffer">
-        <a href={`/view/${_id}`} className="jobOfferTitle">
+        <Link to={`/view/${_id}`} className="jobOfferTitle">
           {title}
-        </a>
+        </Link>
         {this.state.userLoggedIn &&
           isCurrentUser && (
             <FontAwesomeIcon

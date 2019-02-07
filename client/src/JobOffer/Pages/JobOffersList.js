@@ -66,7 +66,7 @@ class JobOffersList extends Component {
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} /> 
         <br/>
-        {jobOfferList.length && <h4> Voici les offres d'emploi disponibles :<br/><br/></h4>}       
+        {jobOfferList.length > 0  && (<h4> Voici les offres d'emploi disponibles :<br/><br/></h4>) }       
         {jobOfferList.length ? (          
           jobOfferList.map(jobOffer => (
             <JobOfferPreview

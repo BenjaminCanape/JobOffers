@@ -1,6 +1,7 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavLink } from 'reactstrap';
 import { withRouter} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faSignInAlt from '@fortawesome/fontawesome-free-solid/faSignInAlt';
@@ -70,18 +71,18 @@ export default withRouter( class Header extends React.Component {
     return (
       <div>
         <Navbar expand="md">
-          <NavbarBrand href="/">
+          <NavbarBrand tag={Link} to="/">
             <FontAwesomeIcon icon={home} /> &nbsp;&nbsp;
             {this.getConnectedUser() ? <span>Bonjour {this.getConnectedUser().firstName}, </span> : <span>Site d'offres d'emploi</span>}
           </NavbarBrand>
           <NavbarToggler onClick={this.toggle} className="navbar-dark"/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar >
-            {isRecruiter && <NavLink href="/myOffers"><FontAwesomeIcon icon={list} /> Mes offres</NavLink>}
-            {isRecruiter && <NavLink href="/add"><FontAwesomeIcon icon={plusSquare} /> Ajouter</NavLink>}
-            {this.state.userLoggedIn && <NavLink href="/myprofile"><FontAwesomeIcon icon={userCircle} /> Mon profil</NavLink>}
+            {isRecruiter && <NavLink tag={Link} to="/myOffers"><FontAwesomeIcon icon={list} /> Mes offres</NavLink>}
+            {isRecruiter && <NavLink tag={Link} to="/add"><FontAwesomeIcon icon={plusSquare} /> Ajouter</NavLink>}
+            {this.state.userLoggedIn && <NavLink tag={Link} to="/myprofile"><FontAwesomeIcon icon={userCircle} /> Mon profil</NavLink>}
             {!this.state.userLoggedIn && (
-              <NavLink href="/login">
+              <NavLink tag={Link} to="/login">
                 <FontAwesomeIcon icon={faSignInAlt} /> Se connecter
               </NavLink>
             )}
