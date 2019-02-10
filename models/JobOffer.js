@@ -13,4 +13,17 @@ var JobOfferSchema = new mongoose.Schema({
 	updateDate: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('JobOffer', JobOfferSchema);
+JobOfferSchema.statics.search = function (params, callback){
+	if(params.title !== "undefined"){
+		params.title = {$regex: new RegExp(params.title , "ig")};
+	}
+	if(params.city !== "undefined"){
+		params.city = {$regex: new RegExp(params.city , "ig")};
+	}
+
+	JobOffer.find(params, callback);
+};
+
+
+const JobOffer = mongoose.model('JobOffer', JobOfferSchema);
+module.exports = JobOffer;

@@ -29,6 +29,14 @@ router.get('/:id', function(req, res, next) {
   });
 });
 
+/* GET Search jobOffer by params */
+router.post('/search', function(req, res, next) {
+  JobOffer.search(req.body, function(err, jobOffer) {
+    if (err) return next(err);
+    return res.json(jobOffer);
+  });
+});
+
 /* POST jobOffer */
 router.post('/', passport.authenticate('jwt', { session: false }), function(req, res, next) {
   var token = getToken(req.headers);

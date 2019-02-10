@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import JobOfferPreview from '../Components/JobOfferPreview';
 import FlashMessage from '../Components/FlashMessage';
 import axios from 'axios';
+import SearchJobOffersForm from '../Forms/SearchJobOffersForm';
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -59,6 +60,13 @@ class JobOffersList extends Component {
     });
   };
 
+    //when the search form is submitted, we call the api to search the job offers corresponding to the text
+  onFormSubmit = search => {
+    axios.post('/jobOffers/search', search).then(response => {
+      this.setState({ jobOfferList: response.data });
+    });
+  };
+
   //For each job offer, we create a JobOfferPreview component
   render() {
     const { jobOfferList, currentUser } = this.state;
@@ -66,6 +74,8 @@ class JobOffersList extends Component {
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} /> 
         <br/>
+        <SearchJobOffersForm onFormSubmit={this.onFormSubmit} />
+        <br/><br/>
         {jobOfferList.length > 0  && (<h4> Voici les offres d'emploi disponibles :<br/><br/></h4>) }       
         {jobOfferList.length ? (          
           jobOfferList.map(jobOffer => (
