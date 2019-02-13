@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
 import FontAwesomeIcon from '@fortawesome/react-fontawesome';
 import faBriefcase from '@fortawesome/fontawesome-free-solid/faBriefcase';
@@ -31,11 +30,11 @@ class SearchJobOffersForm extends Component {
     e.preventDefault();
     let search = {};
 
-    if(this.state.job != ""){
+    if(this.state.job !== ""){
       search.title = this.state.job;
     }
 
-    if(this.state.city != ""){
+    if(this.state.city !== ""){
       search.city = this.state.city;
     }
 
@@ -45,35 +44,44 @@ class SearchJobOffersForm extends Component {
   };
 
   render() {
-    const { jobOfferList, currentUser } = this.state;
     return (
       <div className="container">
         <form className="form-inline" onSubmit={this.onFormSubmit}>
-          <div className="form-group">
-            <label htmlFor="job"> <FontAwesomeIcon icon={faBriefcase} size="2x"/> &nbsp;</label>
-            <input
-              type="text"
-              className="form-control"
-              id="job"
-              name="job"  
-              placeholder="Quel Métier ?"            
-              value={this.state.job}
-              onChange={this.handleChange}
-            />
-          </div> &nbsp;&nbsp;
-          <div className="form-group">
-            <label htmlFor="city"> <FontAwesomeIcon icon={faMapMarkedAlt} size="2x"/> &nbsp;</label>
-            <input
-              type="text"
-              className="form-control"
-              id="city"
-              name="city"
-              placeholder="Où ?"
-              value={this.state.city}
-              onChange={this.handleChange}
-            />
+          <div className="form-group col-md-3 col-sm-12">
+              <div className="input-group">
+                <div className="input-group addon">
+                 <span className="input-group-addon" id="basic-addon1"><FontAwesomeIcon icon={faBriefcase} size="2x"/>&nbsp;</span>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="job"
+                    name="job"  
+                    placeholder="Quel Métier ?"            
+                    value={this.state.job}
+                    onChange={this.handleChange}
+                  />
+                  </div>
+                </div>
+          </div> 
+          <div className="form-group col-md-3 col-sm-12">
+            <div className="input-group">
+              <div className="input-group addon">
+               <span className="input-group-addon" id="basic-addon1"><FontAwesomeIcon icon={faMapMarkedAlt} size="2x"/>&nbsp;</span>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="city"
+                  name="city"
+                  placeholder="Où ?"
+                  value={this.state.city}
+                  onChange={this.handleChange}
+                />
+
+                </div></div>
           </div>&nbsp;&nbsp;
-          <button className="btn btn-primary"> Rechercher </button>
+          <div className="col-md-3 col-sm-12">
+            <button className="btn btn-primary"> Rechercher </button>
+          </div>
         </form>
       </div>
     );
