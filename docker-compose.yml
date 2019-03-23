@@ -1,0 +1,41 @@
+version: '3'
+services:
+  client:
+    image: joboffers/client    
+    container_name: client
+    build: ./client/
+    volumes:
+      - ./client:/client/
+      - /client/node_modules
+    ports:
+      - "3000:3000"
+    links:
+      - server
+    networks:
+      - samenetwork
+  server:
+    image: joboffers/server
+    container_name: server
+    build: .
+    volumes:
+      - .:/server
+      - /server/node_modules
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+    networks:
+      - samenetwork
+  mongodb:
+    image: mongo:4.0
+    container_name: mongodb
+    volumes:
+      - /app/data:/data/db
+    ports:
+      - 27017:27017
+    command: mongod --smallfiles
+    networks:
+      - samenetwork
+networks:
+  samenetwork:
+    driver: bridge
