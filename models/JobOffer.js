@@ -13,15 +13,25 @@ var JobOfferSchema = new mongoose.Schema({
 	updateDate: { type: Date, default: Date.now },
 });
 
-JobOfferSchema.statics.search = function (params, callback){
+JobOfferSchema.statics.search = function (params, callback, page, limit){
 	if(params.title !== "undefined"){
 		params.title = {$regex: new RegExp(params.title , "ig")};
 	}
 	if(params.city !== "undefined"){
 		params.city = {$regex: new RegExp(params.city , "ig")};
 	}
-
-	JobOffer.find(params, callback);
+	JobOffer.find(params)  
+	.skip(limit * (page - 1))
+	.limit(limit)
+	.exec(
+		function(err, jobOffers) {
+			JobOffer.find(params).count().exec(function(err, count) {
+				callback( {
+				  jobOffers: jobOffers,
+				  items: count
+				});
+			});
+		});
 };
 
 

@@ -3,6 +3,7 @@ import JobOfferPreview from '../Components/JobOfferPreview';
 import FlashMessage from '../Components/FlashMessage';
 import axios from 'axios';
 import SearchJobOffersForm from '../Forms/SearchJobOffersForm';
+import Pagination from "react-js-pagination";
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -17,17 +18,16 @@ class JobOffersList extends Component {
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
+      activePage: 1,
+      jobOffersCount: 0,
+      searchField: null
     };
   }
 
   //when the component is mount, we call the api to get the list of job offers and update the local state
   componentDidMount() {
     AuthentificationStore.addChangeListener(this._onChange.bind(this));
-
-    axios
-      .get('/jobOffers')
-      .then(response => this.setState({ jobOfferList: response.data }))
-      .catch(err => console.log(err));
+    this.getJobOffers();
   }
 
   componentWillUnmount() {
@@ -40,6 +40,32 @@ class JobOffersList extends Component {
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
     });
+  }
+
+  handlePageChange = pageNumber => {
+    this.setState({activePage: pageNumber}, this.getJobOffers);
+  }
+
+  getJobOffers = () => {
+    if(this.state.searchField === null){
+      axios
+      .get('/jobOffers/' + this.state.activePage)
+      .then(response => this.setState({ 
+        jobOfferList: response.data.jobOffers,
+        jobOffersCount: response.data.items 
+      }))
+      .catch(err => console.log(err));
+    }
+    else{
+      let body = this.state.searchField;
+      body.page = this.state.activePage;
+      axios.post('/jobOffers/search/', body).then(response => {
+        this.setState({
+          jobOfferList: response.data.jobOffers,
+          jobOffersCount: response.data.items  
+        });
+      });    
+    }
   }
 
   //when we click on the trash button of the preview, we delete this job offer thanks to the api
@@ -62,14 +88,19 @@ class JobOffersList extends Component {
 
     //when the search form is submitted, we call the api to search the job offers corresponding to the text
   onFormSubmit = search => {
-    axios.post('/jobOffers/search', search).then(response => {
-      this.setState({ jobOfferList: response.data });
+    this.setState({searchField: search});
+    search.page = 1;
+    axios.post('/jobOffers/search/', search).then(response => {
+      this.setState({
+        jobOfferList: response.data.jobOffers,
+        jobOffersCount: response.data.items  
+      });
     });
   };
 
   //For each job offer, we create a JobOfferPreview component
   render() {
-    const { jobOfferList, currentUser } = this.state;
+    const { jobOfferList, currentUser, activePage, jobOffersCount } = this.state;
     return (
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} /> 
@@ -85,10 +116,24 @@ class JobOffersList extends Component {
               deleteJobOffer={this.deleteJobOffer}
               currentUser={currentUser}
             />
-          ))
+          ))          
         ) : (
           <h4> Aucune offre d'emploi disponible.</h4>
         )}
+
+        <br/><br/>
+        
+        {jobOfferList.length > 0 && (
+          <Pagination
+          activePage={activePage}
+          itemsCountPerPage={2}
+          totalItemsCount={jobOffersCount}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange}
+          linkClass = "page-link"
+          itemClass = "page-item"
+          />
+         )}
       </div>
     );
   }

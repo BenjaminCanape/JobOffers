@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import JobOfferPreview from '../Components/JobOfferPreview';
 import FlashMessage from '../Components/FlashMessage';
 import axios from 'axios';
+import Pagination from 'react-js-pagination';
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -16,16 +17,15 @@ class RecuiterOffers extends Component {
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
+      activePage: 1,
+      jobOffersCount: 0
     };
   }
 
   //when the component is mount, we call the api to get the list of job offers and update the local state
   componentDidMount() {
     AuthentificationStore.addChangeListener(this._onChange.bind(this));
-    axios
-      .get('/jobOffers/user/' + this.state.currentUser._id)
-      .then(response => this.setState({ jobOfferList: response.data }))
-      .catch(err => console.log(err));
+    this.getJobOffers();
   }
 
   componentWillUnmount() {
@@ -38,6 +38,20 @@ class RecuiterOffers extends Component {
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
     });
+  }
+
+  handlePageChange = pageNumber => {
+    this.setState({activePage: pageNumber}, this.getJobOffers);
+  }
+
+  getJobOffers = () => {
+    axios
+    .get('/jobOffers/' + this.state.activePage)
+    .then(response => this.setState({ 
+      jobOfferList: response.data.jobOffers,
+      jobOffersCount: response.data.items 
+    }))
+    .catch(err => console.log(err));
   }
 
   //when we click on the trash button of the preview, we delete this job offer thanks to the api
@@ -60,7 +74,7 @@ class RecuiterOffers extends Component {
 
   //For each job offer, we create a JobOfferPreview component
   render() {
-    const { jobOfferList, currentUser } = this.state;
+    const { jobOfferList, currentUser, activePage, jobOffersCount } = this.state;
     return (
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
@@ -76,6 +90,20 @@ class RecuiterOffers extends Component {
         ) : (
           <span> Aucune offre</span>
         )}
+
+        <br/><br/>
+        
+        {jobOfferList.length > 0  && (
+          <Pagination
+          activePage={activePage}
+          itemsCountPerPage={2}
+          totalItemsCount={jobOffersCount}
+          pageRangeDisplayed={5}
+          onChange={this.handlePageChange}
+          linkClass = "page-link"
+          itemClass = "page-item"
+          />
+         )}
       </div>
     );
   }

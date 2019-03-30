@@ -6,23 +6,45 @@ var passport = require('passport');
 require('../config/passport')(passport);
 
 /* GET jobOffers listing. */
-router.get('/', function(req, res, next) {
-  JobOffer.find(function(err, jobOffers) {
-    if (err) return next(err);
-    res.json(jobOffers);
+router.get('/:page?', function(req, res, next) {
+  var limit = 2;
+  var page = req.params.page || 1;
+
+  JobOffer.find()
+  .skip(limit * (page - 1))
+  .limit(limit)
+  .exec(function(err, jobOffers) {
+    JobOffer.count().exec(function(err, count) {
+      if (err) return next(err);
+      res.json({
+        jobOffers: jobOffers,
+        items: count
+      });
+    });
   });
 });
 
 /* GET jobOffers by author. */
-router.get('/user/:author', function(req, res, next) {
-  JobOffer.find({ author: req.params.author }, function(err, jobOffers) {
-    if (err) return next(err);
-    res.json(jobOffers);
+router.get('/user/:author/:page?', function(req, res, next) {
+  var limit = 2;
+  var page = req.params.page || 1;
+
+  JobOffer.find({ author: req.params.author })
+  .skip(limit * (page - 1))
+  .limit(limit)
+  .exec(function(err, jobOffers) {
+    JobOffer.count().exec(function(err, count) {
+      if (err) return next(err);
+      res.json({
+        jobOffers: jobOffers,
+        items: count
+      });
+    });
   });
 });
 
 /* GET One jobOffer by id */
-router.get('/:id', function(req, res, next) {
+router.get('/offer/:id', function(req, res, next) {
   JobOffer.findById(req.params.id, function(err, jobOffer) {
     if (err) return next(err);
     res.json(jobOffer);
@@ -31,10 +53,13 @@ router.get('/:id', function(req, res, next) {
 
 /* GET Search jobOffer by params */
 router.post('/search', function(req, res, next) {
-  JobOffer.search(req.body, function(err, jobOffer) {
-    if (err) return next(err);
-    return res.json(jobOffer);
-  });
+  var limit = 2;
+  var page = req.body.page || 1;
+  delete req.body.page;
+
+  JobOffer.search(req.body, function(json) {
+      res.json(json);
+    }, page, limit);
 });
 
 /* POST jobOffer */
