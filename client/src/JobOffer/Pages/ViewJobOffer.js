@@ -23,7 +23,7 @@ class ViewJobOfferPage extends Component {
   //and update the local state to update the form
   componentDidMount() {
     AuthentificationStore.addChangeListener(this._onChange.bind(this));
-    fetch('/jobOffers/' + this.props.match.params.id)
+    fetch('/jobOffers/offer/' + this.props.match.params.id)
       .then(function(response) {
         return response.json();
       })

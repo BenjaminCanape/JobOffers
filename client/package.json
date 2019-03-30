@@ -19,6 +19,7 @@
     "react-confirm-alert": "^2.4.0",
     "react-dom": "^16.8.5",
     "react-flash-message": "^1.0.2",
+    "react-js-pagination": "^3.0.2",
     "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0",
     "react-scripts": "next",
