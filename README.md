@@ -9,7 +9,8 @@ I intend to create an app where:
 *   Both can follow every step of the appliance
 
 I will use React.js, Express and MongoDB.
-I also used it to play with docker
+
+I also wanted to play with docker.
 
 ## Demo
 
@@ -31,5 +32,7 @@ docker-compose up
 ```
 
 Then you can test the app:
+
 On linux : http://localhost:3000/
+
 Others: whatever ip the docker daemon started on and port 3000

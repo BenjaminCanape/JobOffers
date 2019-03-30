@@ -6,18 +6,40 @@ var passport = require('passport');
 require('../config/passport')(passport);
 
 /* GET jobOffers listing. */
-router.get('/', function(req, res, next) {
-  JobOffer.find(function(err, jobOffers) {
-    if (err) return next(err);
-    res.json(jobOffers);
+router.get('/:page?', function(req, res, next) {
+  var limit = 1;
+  var page = req.params.page || 1;
+
+  JobOffer.find()
+  .skip(limit * (page - 1))
+  .limit(limit)
+  .exec(function(err, jobOffers) {
+    JobOffer.count().exec(function(err, count) {
+      if (err) return next(err);
+      res.json({
+        jobOffers: jobOffers,
+        items: count
+      });
+    });
   });
 });
 
 /* GET jobOffers by author. */
-router.get('/user/:author', function(req, res, next) {
-  JobOffer.find({ author: req.params.author }, function(err, jobOffers) {
-    if (err) return next(err);
-    res.json(jobOffers);
+router.get('/user/:author/:page?', function(req, res, next) {
+  var limit = 1;
+  var page = req.params.page || 1;
+
+  JobOffer.find({ author: req.params.author })
+  .skip(limit * (page - 1))
+  .limit(limit)
+  .exec(function(err, jobOffers) {
+    JobOffer.count().exec(function(err, count) {
+      if (err) return next(err);
+      res.json({
+        jobOffers: jobOffers,
+        items: count
+      });
+    });
   });
 });
 
