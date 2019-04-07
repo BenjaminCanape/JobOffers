@@ -13,7 +13,7 @@ var JobOfferSchema = new mongoose.Schema({
 	updateDate: { type: Date, default: Date.now },
 });
 
-JobOfferSchema.statics.search = function (params, callback, page, limit){
+JobOfferSchema.statics.search = function (params, callback, page, limit, sortData){
 	if(params.title !== "undefined"){
 		params.title = {$regex: new RegExp(params.title , "ig")};
 	}
@@ -23,6 +23,7 @@ JobOfferSchema.statics.search = function (params, callback, page, limit){
 	JobOffer.find(params)  
 	.skip(limit * (page - 1))
 	.limit(limit)
+	.sort(sortData)
 	.exec(
 		function(err, jobOffers) {
 			JobOffer.find(params).count().exec(function(err, count) {

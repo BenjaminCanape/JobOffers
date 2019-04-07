@@ -3,6 +3,7 @@ import JobOfferPreview from '../Components/JobOfferPreview';
 import FlashMessage from '../Components/FlashMessage';
 import axios from 'axios';
 import Pagination from 'react-js-pagination';
+import SortJobOffersForm from '../Forms/SortJobOffersForm';
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -18,7 +19,8 @@ class RecuiterOffers extends Component {
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
       activePage: 1,
-      jobOffersCount: 0
+      jobOffersCount: 0,
+      sortData: null
     };
   }
 
@@ -45,8 +47,13 @@ class RecuiterOffers extends Component {
   }
 
   getJobOffers = () => {
+    let body = {};
+    body.author = this.state.currentUser._id;
+    body.page = this.state.activePage;
+    body.sortData = this.state.sortData;
+    
     axios
-    .get('/jobOffers/' + this.state.activePage)
+    .post('/jobOffers/user/', body)
     .then(response => this.setState({ 
       jobOfferList: response.data.jobOffers,
       jobOffersCount: response.data.items 
@@ -72,12 +79,23 @@ class RecuiterOffers extends Component {
     });
   };
 
+    //When the sort data changes
+    onSortChange = sortData => {
+      this.setState({
+        sortData: sortData 
+      }, this.getJobOffers);
+    };
+
   //For each job offer, we create a JobOfferPreview component
   render() {
     const { jobOfferList, currentUser, activePage, jobOffersCount } = this.state;
     return (
       <div>
         <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        {jobOfferList.length > 0  && (
+          <SortJobOffersForm onSortChange={this.onSortChange} />
+        )}
+
         {jobOfferList.length ? (
           jobOfferList.map(jobOffer => (
             <JobOfferPreview
