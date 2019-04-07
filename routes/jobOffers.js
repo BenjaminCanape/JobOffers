@@ -5,16 +5,20 @@ var JobOffer = require('../models/JobOffer.js');
 var passport = require('passport');
 require('../config/passport')(passport);
 
-/* GET jobOffers listing. */
-router.get('/:page?', function(req, res, next) {
+/* POST jobOffers listing. */
+router.post('/list', function(req, res, next) {
   var limit = 2;
-  var page = req.params.page || 1;
+  var page = req.body.page || 1;
+  var sortData = req.body.sortData;
+
+  let sortObject = creatingSortObject(sortData);
 
   JobOffer.find()
   .skip(limit * (page - 1))
   .limit(limit)
+  .sort(sortObject)
   .exec(function(err, jobOffers) {
-    JobOffer.count().exec(function(err, count) {
+    JobOffer.countDocuments().exec(function(err, count) {
       if (err) return next(err);
       res.json({
         jobOffers: jobOffers,
@@ -24,16 +28,21 @@ router.get('/:page?', function(req, res, next) {
   });
 });
 
-/* GET jobOffers by author. */
-router.get('/user/:author/:page?', function(req, res, next) {
+/* POST jobOffers by author. */
+router.post('/user', function(req, res, next) {
   var limit = 2;
-  var page = req.params.page || 1;
+  var page = req.body.page || 1;
+  var sortData = req.body.sortData;
+  var author = req.body.author;
 
-  JobOffer.find({ author: req.params.author })
+  let sortObject = creatingSortObject(sortData);
+
+  JobOffer.find({ author: author })
   .skip(limit * (page - 1))
   .limit(limit)
+  .sort(sortObject)
   .exec(function(err, jobOffers) {
-    JobOffer.count().exec(function(err, count) {
+    JobOffer.countDocuments().exec(function(err, count) {
       if (err) return next(err);
       res.json({
         jobOffers: jobOffers,
@@ -55,11 +64,16 @@ router.get('/offer/:id', function(req, res, next) {
 router.post('/search', function(req, res, next) {
   var limit = 2;
   var page = req.body.page || 1;
+  var sortData = req.body.sortData;
+
+  let sortObject = creatingSortObject(sortData);
+
   delete req.body.page;
+  delete req.body.sortData;
 
   JobOffer.search(req.body, function(json) {
       res.json(json);
-    }, page, limit);
+    }, page, limit, sortObject);
 });
 
 /* POST jobOffer */
@@ -112,6 +126,22 @@ getToken = function(headers) {
   } else {
     return null;
   }
+};
+
+creatingSortObject = function(sortData){
+  var sortObject = {};
+
+  if(sortData !== null){
+    if(sortData.creatingDate !== ""){
+      sortObject.creationDate = sortData.creatingDate;
+    }
+
+    if(sortData.wage !== ""){
+      sortObject.wage = sortData.wage;
+    }
+  }
+
+  return sortObject;
 };
 
 module.exports = router;

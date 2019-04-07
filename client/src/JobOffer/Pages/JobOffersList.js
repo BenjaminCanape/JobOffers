@@ -4,6 +4,7 @@ import FlashMessage from '../Components/FlashMessage';
 import axios from 'axios';
 import SearchJobOffersForm from '../Forms/SearchJobOffersForm';
 import Pagination from "react-js-pagination";
+import SortJobOffersForm from '../Forms/SortJobOffersForm';
 
 import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
 
@@ -20,7 +21,8 @@ class JobOffersList extends Component {
       userLoggedIn: AuthentificationStore.isLoggedIn(),
       activePage: 1,
       jobOffersCount: 0,
-      searchField: null
+      searchField: null,
+      sortData: null
     };
   }
 
@@ -47,9 +49,12 @@ class JobOffersList extends Component {
   }
 
   getJobOffers = () => {
-    if(this.state.searchField === null){
+    let body = {};
+    if(this.state.searchField === null){      
+      body.page = this.state.activePage;
+      body.sortData = this.state.sortData;
       axios
-      .get('/jobOffers/' + this.state.activePage)
+      .post('/jobOffers/list', body)
       .then(response => this.setState({ 
         jobOfferList: response.data.jobOffers,
         jobOffersCount: response.data.items 
@@ -57,8 +62,9 @@ class JobOffersList extends Component {
       .catch(err => console.log(err));
     }
     else{
-      let body = this.state.searchField;
+      body = this.state.searchField;
       body.page = this.state.activePage;
+      body.sortData = this.state.sortData;
       axios.post('/jobOffers/search/', body).then(response => {
         this.setState({
           jobOfferList: response.data.jobOffers,
@@ -90,12 +96,20 @@ class JobOffersList extends Component {
   onFormSubmit = search => {
     this.setState({searchField: search});
     search.page = 1;
+    search.sortData = this.state.sortData;
     axios.post('/jobOffers/search/', search).then(response => {
       this.setState({
         jobOfferList: response.data.jobOffers,
         jobOffersCount: response.data.items  
       });
     });
+  };
+
+  //When the sort data changes
+  onSortChange = sortData => {
+    this.setState({
+      sortData: sortData 
+    }, this.getJobOffers);
   };
 
   //For each job offer, we create a JobOfferPreview component
@@ -107,7 +121,12 @@ class JobOffersList extends Component {
         <br/>
         <SearchJobOffersForm onFormSubmit={this.onFormSubmit} />
         <br/><br/>
-        {jobOfferList.length > 0  && (<h4> Voici les offres d'emploi disponibles :<br/><br/></h4>) }       
+        {jobOfferList.length > 0  && (
+          <div>
+            <h4> Voici les offres d'emploi disponibles :<br/><br/></h4>
+            <SortJobOffersForm onSortChange={this.onSortChange} />
+          </div>
+        ) }       
         {jobOfferList.length ? (          
           jobOfferList.map(jobOffer => (
             <JobOfferPreview
