@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-import JobOfferForm from '../Forms/JobOfferForm';
-import FlashMessage from '../Components/FlashMessage';
-import axios from 'axios';
+import React, { Component } from "react";
+import JobOfferForm from "../Forms/JobOfferForm";
+import FlashMessage from "../Components/FlashMessage";
+import axios from "axios";
 
-import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+import AuthentificationStore from "../../Authentification/stores/AuthentificationStore";
 
 //page where we can add a new job offer
 class AddJobOfferPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      successMessage: '',
-      errorMessage: '',
-      jwt: AuthentificationStore.jwt,
+      successMessage: "",
+      errorMessage: "",
+      jwt: AuthentificationStore.jwt
     };
   }
 
@@ -34,13 +34,15 @@ class AddJobOfferPage extends Component {
 
   //when the form is submitted, we call the api to create the new job offer
   onFormSubmit = jobOffer => {
-    axios.defaults.headers.common['Authorization'] = this.state.jwt;
+    axios.defaults.headers.common["Authorization"] = this.state.jwt;
 
-    axios.post('/jobOffers', jobOffer).then(response => {
+    axios.post("/jobOffers", jobOffer).then(response => {
       if (response.data.message) {
         this.setState({ errorMessage: response.data.message });
       } else {
-        this.setState({ successMessage: "L'offre d'emploi vient d'être créée" });
+        this.setState({
+          successMessage: "L'offre d'emploi vient d'être créée"
+        });
       }
     });
   };
@@ -48,7 +50,10 @@ class AddJobOfferPage extends Component {
   render() {
     return (
       <div className="container">
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
         <h2>Ajouter une offre d'emploi</h2>
         <JobOfferForm onFormSubmit={this.onFormSubmit} />
       </div>

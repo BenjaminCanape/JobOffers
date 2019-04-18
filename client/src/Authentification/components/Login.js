@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import FlashMessage from '../../JobOffer/Components/FlashMessage';
-import AuthentificationService from '../services/AuthentificationService';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import FlashMessage from "../../JobOffer/Components/FlashMessage";
+import AuthentificationService from "../services/AuthentificationService";
 
 class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: '',
-      successMessage: '',
-      errorMessage: '',
+      email: "",
+      password: "",
+      successMessage: "",
+      errorMessage: ""
     };
   }
 
@@ -29,13 +29,13 @@ class Login extends Component {
     AuthentificationService.login(email, password)
       .then(() => {
         this.setState({
-          successMessage: 'Bienvenue',
+          successMessage: "Bienvenue"
         });
-        this.props.history.push('/');
+        this.props.history.push("/");
       })
       .catch(error => {
         if (error.response.status === 401) {
-          this.setState({ errorMessage: 'Email ou Mot de passe invalide' });
+          this.setState({ errorMessage: "Email ou Mot de passe invalide" });
         }
       });
   };
@@ -44,7 +44,10 @@ class Login extends Component {
   render() {
     return (
       <div className="container">
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
         <form className="form-signin" onSubmit={this.onSubmit}>
           <h2 className="form-signin-heading">Connectez vous</h2>
           <label htmlFor="email">E-mail</label>

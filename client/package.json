@@ -34,7 +34,9 @@
   },
   "proxy": "http://server:5000/",
   "devDependencies": {
-    "prettier": "1.16.4"
+    "babel-eslint": "^10.0.1",
+    "prettier": "1.16.4",
+    "prettier-eslint": "^8.8.2"
   },
   "browserslist": {
     "production": [

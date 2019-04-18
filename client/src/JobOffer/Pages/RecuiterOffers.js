@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import JobOfferPreview from '../Components/JobOfferPreview';
-import FlashMessage from '../Components/FlashMessage';
-import axios from 'axios';
-import Pagination from 'react-js-pagination';
-import SortJobOffersForm from '../Forms/SortJobOffersForm';
+import React, { Component } from "react";
+import JobOfferPreview from "../Components/JobOfferPreview";
+import FlashMessage from "../Components/FlashMessage";
+import axios from "axios";
+import Pagination from "react-js-pagination";
+import SortJobOffersForm from "../Forms/SortJobOffersForm";
 
-import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+import AuthentificationStore from "../../Authentification/stores/AuthentificationStore";
 
 //Job offer list page : This is the page where we can the job offers created by the connected user
 class RecuiterOffers extends Component {
@@ -13,8 +13,8 @@ class RecuiterOffers extends Component {
     super();
     this.state = {
       jobOfferList: [],
-      successMessage: '',
-      errorMessage: '',
+      successMessage: "",
+      errorMessage: "",
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
@@ -38,34 +38,36 @@ class RecuiterOffers extends Component {
     this.setState({
       userLoggedIn: AuthentificationStore.isLoggedIn(),
       currentUser: AuthentificationStore.user,
-      jwt: AuthentificationStore.jwt,
+      jwt: AuthentificationStore.jwt
     });
   }
 
   handlePageChange = pageNumber => {
-    this.setState({activePage: pageNumber}, this.getJobOffers);
-  }
+    this.setState({ activePage: pageNumber }, this.getJobOffers);
+  };
 
   getJobOffers = () => {
     let body = {};
     body.author = this.state.currentUser._id;
     body.page = this.state.activePage;
     body.sortData = this.state.sortData;
-    
+
     axios
-    .post('/jobOffers/user/', body)
-    .then(response => this.setState({ 
-      jobOfferList: response.data.jobOffers,
-      jobOffersCount: response.data.items 
-    }))
-    .catch(err => console.log(err));
-  }
+      .post("/jobOffers/user/", body)
+      .then(response =>
+        this.setState({
+          jobOfferList: response.data.jobOffers,
+          jobOffersCount: response.data.items
+        })
+      )
+      .catch(err => console.log(err));
+  };
 
   //when we click on the trash button of the preview, we delete this job offer thanks to the api
   deleteJobOffer = id => {
-    axios.defaults.headers.common['Authorization'] = this.state.jwt;
+    axios.defaults.headers.common["Authorization"] = this.state.jwt;
 
-    axios.delete('/jobOffers/' + id).then(response => {
+    axios.delete("/jobOffers/" + id).then(response => {
       if (response.data.message) {
         this.setState({ errorMessage: response.data.message });
       } else {
@@ -73,26 +75,37 @@ class RecuiterOffers extends Component {
         jobOfferList = jobOfferList.filter(jobOffer => jobOffer._id !== id);
         this.setState({
           jobOfferList: jobOfferList,
-          successMessage: "L'offre d'emploi vient d'être supprimée",
+          successMessage: "L'offre d'emploi vient d'être supprimée"
         });
       }
     });
   };
 
-    //When the sort data changes
-    onSortChange = sortData => {
-      this.setState({
-        sortData: sortData 
-      }, this.getJobOffers);
-    };
+  //When the sort data changes
+  onSortChange = sortData => {
+    this.setState(
+      {
+        sortData: sortData
+      },
+      this.getJobOffers
+    );
+  };
 
   //For each job offer, we create a JobOfferPreview component
   render() {
-    const { jobOfferList, currentUser, activePage, jobOffersCount } = this.state;
+    const {
+      jobOfferList,
+      currentUser,
+      activePage,
+      jobOffersCount
+    } = this.state;
     return (
       <div>
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
-        {jobOfferList.length > 0  && (
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
+        {jobOfferList.length > 0 && (
           <SortJobOffersForm onSortChange={this.onSortChange} />
         )}
 
@@ -109,19 +122,20 @@ class RecuiterOffers extends Component {
           <span> Aucune offre</span>
         )}
 
-        <br/><br/>
-        
-        {jobOfferList.length > 0  && (
+        <br />
+        <br />
+
+        {jobOfferList.length > 0 && (
           <Pagination
-          activePage={activePage}
-          itemsCountPerPage={2}
-          totalItemsCount={jobOffersCount}
-          pageRangeDisplayed={5}
-          onChange={this.handlePageChange}
-          linkClass = "page-link"
-          itemClass = "page-item"
+            activePage={activePage}
+            itemsCountPerPage={2}
+            totalItemsCount={jobOffersCount}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange}
+            linkClass="page-link"
+            itemClass="page-item"
           />
-         )}
+        )}
       </div>
     );
   }
