@@ -1,15 +1,15 @@
-import React, { Component } from 'react';
-import axios from 'axios';
+import React, { Component } from "react";
+import axios from "axios";
 
 class Create extends Component {
   constructor() {
     super();
     this.state = {
-      email: '',
-      password: '',
-      firstName: '',
-      lastName: '',
-      isRecruiter: false,
+      email: "",
+      password: "",
+      firstName: "",
+      lastName: "",
+      isRecruiter: false
     };
   }
 
@@ -26,15 +26,15 @@ class Create extends Component {
     const { email, password, firstName, lastName, isRecruiter } = this.state;
 
     axios
-      .post('/users/register', {
+      .post("/users/register", {
         email,
         password,
         firstName,
         lastName,
-        isRecruiter,
+        isRecruiter
       })
       .then(result => {
-        this.props.history.push('/login');
+        this.props.history.push("/login");
       });
   };
 
@@ -81,11 +81,25 @@ class Create extends Component {
           <br />
           Je suis un &nbsp;&nbsp;&nbsp;
           <label>
-            <input type="radio" required name="isRecruiter" value={false} onChange={this.onChange} />&nbsp; Candidat
+            <input
+              type="radio"
+              required
+              name="isRecruiter"
+              value={false}
+              onChange={this.onChange}
+            />
+            &nbsp; Candidat
           </label>
           &nbsp;&nbsp;
           <label>
-            <input type="radio" required name="isRecruiter" value={true} onChange={this.onChange} />&nbsp; Recruteur
+            <input
+              type="radio"
+              required
+              name="isRecruiter"
+              value={true}
+              onChange={this.onChange}
+            />
+            &nbsp; Recruteur
           </label>
           <br />
           <br />

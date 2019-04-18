@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import FlashMessage from '../../JobOffer/Components/FlashMessage';
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import axios from "axios";
+import FlashMessage from "../../JobOffer/Components/FlashMessage";
 
-import AuthentificationStore from '../stores/AuthentificationStore';
+import AuthentificationStore from "../stores/AuthentificationStore";
 
 class EditProfile extends Component {
   constructor() {
@@ -18,8 +18,8 @@ class EditProfile extends Component {
       user: user,
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
-      successMessage: '',
-      errorMessage: '',
+      successMessage: "",
+      errorMessage: ""
     };
   }
 
@@ -47,17 +47,20 @@ class EditProfile extends Component {
 
     const { email, firstName, lastName, isRecruiter } = this.state;
 
-    axios.defaults.headers.common['Authorization'] = this.state.jwt;
+    axios.defaults.headers.common["Authorization"] = this.state.jwt;
     axios
-      .put('/users/edit/' + this.state.user._id, {
+      .put("/users/edit/" + this.state.user._id, {
         email,
         firstName,
         lastName,
-        isRecruiter,
+        isRecruiter
       })
       .then(result => {
-        localStorage.setItem('user', JSON.stringify(result.data.user));
-        this.setState({ user: result.data.user, successMessage: 'Profil modifié' });
+        localStorage.setItem("user", JSON.stringify(result.data.user));
+        this.setState({
+          user: result.data.user,
+          successMessage: "Profil modifié"
+        });
       });
   };
 
@@ -65,7 +68,10 @@ class EditProfile extends Component {
   render() {
     return (
       <div className="container">
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
         <form className="form-signin" onSubmit={this.onSubmit}>
           <h2 className="form-signin-heading">Modifier mon profil</h2>
           <label htmlFor="email">E-mail</label>
@@ -103,7 +109,8 @@ class EditProfile extends Component {
               defaultChecked={!this.state.isRecruiter}
               value={false}
               onChange={this.onChange}
-            />&nbsp; Candidat
+            />
+            &nbsp; Candidat
           </label>
           &nbsp;&nbsp;
           <label>
@@ -114,7 +121,8 @@ class EditProfile extends Component {
               defaultChecked={this.state.isRecruiter}
               value={true}
               onChange={this.onChange}
-            />&nbsp; Recruteur
+            />
+            &nbsp; Recruteur
           </label>
           <br />
           <br />

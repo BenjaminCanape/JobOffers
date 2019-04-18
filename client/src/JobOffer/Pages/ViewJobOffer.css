@@ -1,12 +1,12 @@
 .jobOfferTitle {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .subtitle {
-	font-style: bold;
+  font-style: bold;
 }
 
 .editJobOfferIcon {
-	color: blue;
-	cursor: pointer;
+  color: blue;
+  cursor: pointer;
 }

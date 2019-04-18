@@ -1,5 +1,5 @@
-import { EventEmitter } from 'events';
-import AppDispatcher from '../dispatchers/AppDispatcher';
+import { EventEmitter } from "events";
+import AppDispatcher from "../dispatchers/AppDispatcher";
 
 class AuthentificationStore extends EventEmitter {
   constructor() {
@@ -18,25 +18,25 @@ class AuthentificationStore extends EventEmitter {
   }
 
   emitChange() {
-    this.emit('CHANGE');
+    this.emit("CHANGE");
   }
 
   addChangeListener(cb) {
-    this.on('CHANGE', cb);
+    this.on("CHANGE", cb);
   }
 
   removeChangeListener(cb) {
-    this.removeListener('CHANGE', cb);
+    this.removeListener("CHANGE", cb);
   }
 
   _registerToActions(action) {
     switch (action.actionType) {
-      case 'LOGIN_USER':
+      case "LOGIN_USER":
         this._jwt = action.jwt;
         this._user = action.user;
         this.emitChange();
         break;
-      case 'LOGOUT_USER':
+      case "LOGOUT_USER":
         this._user = null;
         this.emitChange();
         break;

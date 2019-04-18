@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faEdit from '@fortawesome/fontawesome-free-solid/faEdit';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faEdit from "@fortawesome/fontawesome-free-solid/faEdit";
+import { Link } from "react-router-dom";
 
-import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+import AuthentificationStore from "../../Authentification/stores/AuthentificationStore";
 
 //page where we can view a job offer
 class ViewJobOfferPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      successMessage: '',
-      errorMessage: '',
+      successMessage: "",
+      errorMessage: "",
       jobOffer: {},
       user: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
-      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      userLoggedIn: AuthentificationStore.isLoggedIn()
     };
   }
 
@@ -23,7 +23,7 @@ class ViewJobOfferPage extends Component {
   //and update the local state to update the form
   componentDidMount() {
     AuthentificationStore.addChangeListener(this._onChange.bind(this));
-    fetch('/jobOffers/offer/' + this.props.match.params.id)
+    fetch("/jobOffers/offer/" + this.props.match.params.id)
       .then(function(response) {
         return response.json();
       })
@@ -40,7 +40,7 @@ class ViewJobOfferPage extends Component {
     this.setState({
       userLoggedIn: AuthentificationStore.isLoggedIn(),
       user: AuthentificationStore.user,
-      jwt: AuthentificationStore.jwt,
+      jwt: AuthentificationStore.jwt
     });
   }
 
@@ -72,8 +72,13 @@ class ViewJobOfferPage extends Component {
         <span className="jobOfferTitle">{jobOffer.title}</span>
         <span className="float-right">
           <Link to={`/edit/${this.props.match.params.id}`}>
-            {this.state.userLoggedIn &&
-              isCurrentUser && <FontAwesomeIcon icon={faEdit} className="editJobOfferIcon" size="2x" />}
+            {this.state.userLoggedIn && isCurrentUser && (
+              <FontAwesomeIcon
+                icon={faEdit}
+                className="editJobOfferIcon"
+                size="2x"
+              />
+            )}
           </Link>
         </span>
         <br />
@@ -82,7 +87,10 @@ class ViewJobOfferPage extends Component {
         </span>
         <br />
         <br />
-        {jobOffer.contractType && <span> Type de contract : {jobOffer.contractType}</span>} <br />
+        {jobOffer.contractType && (
+          <span> Type de contract : {jobOffer.contractType}</span>
+        )}{" "}
+        <br />
         {jobOffer.wage && <span> Salaire : {jobOffer.wage} €</span>} <br />
         <br />
         {jobOffer.companyDescription && (
@@ -100,7 +108,10 @@ class ViewJobOfferPage extends Component {
         <br />
         <br />
         {this.isCandidate() && (
-          <button className="btn btn-default apply" onClick={this.applyToThisJobOffer()}>
+          <button
+            className="btn btn-default apply"
+            onClick={this.applyToThisJobOffer()}
+          >
             Postuler
           </button>
         )}
