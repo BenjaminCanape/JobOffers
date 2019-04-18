@@ -57,7 +57,7 @@ class ViewJobOfferPage extends Component {
 
   render() {
     const { jobOffer, user } = this.state;
-
+    const dateOptions = { year: "numeric", month: "numeric", day: "numeric" };
     let isCurrentUser = false;
 
     if (user) {
@@ -83,28 +83,41 @@ class ViewJobOfferPage extends Component {
         </span>
         <br />
         <span className="subtitle">
-          {jobOffer.company},{jobOffer.city}
+          {jobOffer.company}, {jobOffer.city}
+        </span>
+        <span className="float-right">
+          Mis en ligne le{" "}
+          {new Date(jobOffer.creationDate).toLocaleDateString(
+            "fr-FR",
+            dateOptions
+          )}
         </span>
         <br />
         <br />
         {jobOffer.contractType && (
-          <span> Type de contract : {jobOffer.contractType}</span>
+          <span class="badge badge-pill badge-secondary">
+            {jobOffer.contractType}
+          </span>
         )}{" "}
         <br />
         {jobOffer.wage && <span> Salaire : {jobOffer.wage} €</span>} <br />
         <br />
         {jobOffer.companyDescription && (
-          <span>
-            Description de l'entreprise : <br />
-            {jobOffer.companyDescription}
-          </span>
+          <div class="card">
+            <div class="card-header">Description de l'entreprise</div>
+            <div class="card-body">
+              <p class="card-text">{jobOffer.companyDescription}</p>
+            </div>
+          </div>
         )}
         <br />
         <br />
-        <span>
-          Description de l'emploi : <br />
-          {jobOffer.jobDescription}
-        </span>
+        <div class="card">
+          <div class="card-header">Description de l'emploi</div>
+          <div class="card-body">
+            <p class="card-text"> {jobOffer.jobDescription}</p>
+          </div>
+        </div>
         <br />
         <br />
         {this.isCandidate() && (

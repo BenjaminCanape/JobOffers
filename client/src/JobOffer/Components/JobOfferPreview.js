@@ -115,7 +115,7 @@ class JobOfferPreview extends Component {
         )}
         <br />
         <span className="subtitle">
-          {company},{city}
+          {company}, {city}
         </span>
         <br />
         <span>{this.getShortDescription(jobDescription)}</span>
