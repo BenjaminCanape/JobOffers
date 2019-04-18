@@ -1,21 +1,21 @@
-import React from 'react';
-import { BrowserRouter as ReactRouter, Route } from 'react-router-dom';
-import Header from './Layout/Header';
+import React from "react";
+import { BrowserRouter as ReactRouter, Route } from "react-router-dom";
+import Header from "./Layout/Header";
 
-import LoginPage from './Authentification/components/Login';
-import RegisterPage from './Authentification/components/Register';
+import LoginPage from "./Authentification/components/Login";
+import RegisterPage from "./Authentification/components/Register";
 
-import JobOffersList from './JobOffer/Pages/JobOffersList';
-import AddJobOffer from './JobOffer/Pages/AddJobOffer';
-import EditJobOffer from './JobOffer/Pages/EditJobOffer';
-import ViewJobOffer from './JobOffer/Pages/ViewJobOffer';
-import RecuiterOffers from './JobOffer/Pages/RecuiterOffers';
-import EditProfile from './Authentification/components/EditProfile';
-import EditPassword from './Authentification/components/EditPassword';
+import JobOffersList from "./JobOffer/Pages/JobOffersList";
+import AddJobOffer from "./JobOffer/Pages/AddJobOffer";
+import EditJobOffer from "./JobOffer/Pages/EditJobOffer";
+import ViewJobOffer from "./JobOffer/Pages/ViewJobOffer";
+import RecuiterOffers from "./JobOffer/Pages/RecuiterOffers";
+import EditProfile from "./Authentification/components/EditProfile";
+import EditPassword from "./Authentification/components/EditPassword";
 
 //get the routes
 const Routes = () => (
-  <ReactRouter>    
+  <ReactRouter>
     <div>
       <Header />
       <div className="container">

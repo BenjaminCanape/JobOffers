@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faBriefcase from '@fortawesome/fontawesome-free-solid/faBriefcase';
-import faMapMarkedAlt from '@fortawesome/fontawesome-free-solid/faMapMarkerAlt';
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faBriefcase from "@fortawesome/fontawesome-free-solid/faBriefcase";
+import faMapMarkedAlt from "@fortawesome/fontawesome-free-solid/faMapMarkerAlt";
 
 //Search Job offers Form : This is the form tosearch job offers
 class SearchJobOffersForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      job: '',
-      city: ''
+      job: "",
+      city: ""
     };
   }
 
@@ -21,7 +21,7 @@ class SearchJobOffersForm extends Component {
     const name = target.name;
 
     this.setState({
-      [name]: value,
+      [name]: value
     });
   };
 
@@ -30,15 +30,15 @@ class SearchJobOffersForm extends Component {
     e.preventDefault();
     let search = {};
 
-    if(this.state.job !== ""){
+    if (this.state.job !== "") {
       search.title = this.state.job;
     }
 
-    if(this.state.city !== ""){
+    if (this.state.city !== "") {
       search.city = this.state.city;
     }
 
-    if(Object.entries(search).length) {
+    if (Object.entries(search).length) {
       this.props.onFormSubmit(search);
     }
   };
@@ -48,25 +48,31 @@ class SearchJobOffersForm extends Component {
       <div className="container">
         <form className="form-inline" onSubmit={this.onFormSubmit}>
           <div className="form-group col-md-3 col-sm-12">
-              <div className="input-group">
-                <div className="input-group addon">
-                 <span className="input-group-addon" id="basic-addon1"><FontAwesomeIcon icon={faBriefcase} size="2x"/>&nbsp;</span>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="job"
-                    name="job"  
-                    placeholder="Quel Métier ?"            
-                    value={this.state.job}
-                    onChange={this.handleChange}
-                  />
-                  </div>
-                </div>
-          </div> 
+            <div className="input-group">
+              <div className="input-group addon">
+                <span className="input-group-addon" id="basic-addon1">
+                  <FontAwesomeIcon icon={faBriefcase} size="2x" />
+                  &nbsp;
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="job"
+                  name="job"
+                  placeholder="Quel Métier ?"
+                  value={this.state.job}
+                  onChange={this.handleChange}
+                />
+              </div>
+            </div>
+          </div>
           <div className="form-group col-md-3 col-sm-12">
             <div className="input-group">
               <div className="input-group addon">
-               <span className="input-group-addon" id="basic-addon1"><FontAwesomeIcon icon={faMapMarkedAlt} size="2x"/>&nbsp;</span>
+                <span className="input-group-addon" id="basic-addon1">
+                  <FontAwesomeIcon icon={faMapMarkedAlt} size="2x" />
+                  &nbsp;
+                </span>
                 <input
                   type="text"
                   className="form-control"
@@ -76,9 +82,10 @@ class SearchJobOffersForm extends Component {
                   value={this.state.city}
                   onChange={this.handleChange}
                 />
-
-                </div></div>
-          </div>&nbsp;&nbsp;
+              </div>
+            </div>
+          </div>
+          &nbsp;&nbsp;
           <div className="col-md-3 col-sm-12">
             <button className="btn btn-primary"> Rechercher </button>
           </div>

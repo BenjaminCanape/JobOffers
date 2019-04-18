@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import JobOfferForm from '../Forms/JobOfferForm';
-import FlashMessage from '../Components/FlashMessage';
-import axios from 'axios';
+import React, { Component } from "react";
+import JobOfferForm from "../Forms/JobOfferForm";
+import FlashMessage from "../Components/FlashMessage";
+import axios from "axios";
 
-import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+import AuthentificationStore from "../../Authentification/stores/AuthentificationStore";
 
 //page where we can edit a job offer
 class EditJobOfferPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      successMessage: '',
-      errorMessage: '',
+      successMessage: "",
+      errorMessage: "",
       jobOffer: {},
-      jwt: AuthentificationStore.jwt,
+      jwt: AuthentificationStore.jwt
     };
   }
 
@@ -22,7 +22,7 @@ class EditJobOfferPage extends Component {
   componentDidMount() {
     AuthentificationStore.addChangeListener(this._onChange.bind(this));
 
-    fetch('/jobOffers/offer/' + this.props.match.params.id)
+    fetch("/jobOffers/offer/" + this.props.match.params.id)
       .then(function(response) {
         return response.json();
       })
@@ -45,25 +45,35 @@ class EditJobOfferPage extends Component {
 
   //when the form is submitted, we update the previously saved job offer with the new infos
   onFormSubmit = jobOffer => {
-    axios.defaults.headers.common['Authorization'] = this.state.jwt;
+    axios.defaults.headers.common["Authorization"] = this.state.jwt;
 
-    axios.put('/jobOffers/' + this.state.jobOffer._id, jobOffer).then(response => {
-      if (response.data.message) {
-        this.setState({ errorMessage: response.data.message });
-      } else {
-        this.setState({ successMessage: "L'offre d'emploi vient d'être mise à jour" });
+    axios
+      .put("/jobOffers/" + this.state.jobOffer._id, jobOffer)
+      .then(response => {
+        if (response.data.message) {
+          this.setState({ errorMessage: response.data.message });
+        } else {
+          this.setState({
+            successMessage: "L'offre d'emploi vient d'être mise à jour"
+          });
 
-        this.props.history.push('/view/' + this.state.jobOffer._id);
-      }
-    });
+          this.props.history.push("/view/" + this.state.jobOffer._id);
+        }
+      });
   };
 
   render() {
     return (
       <div className="container">
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
         <h2>Modifier l'offre d'emploi</h2>
-        <JobOfferForm defaultJobOffer={this.state.jobOffer} onFormSubmit={this.onFormSubmit} />
+        <JobOfferForm
+          defaultJobOffer={this.state.jobOffer}
+          onFormSubmit={this.onFormSubmit}
+        />
       </div>
     );
   }

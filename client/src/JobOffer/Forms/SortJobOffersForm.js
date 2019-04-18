@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 //Sort Job offers Form : This is the form to sort job offers
 class SortJobOffersForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      wage: '',
-      creatingDate: ''
+      wage: "",
+      creatingDate: ""
     };
   }
 
@@ -16,22 +16,24 @@ class SortJobOffersForm extends Component {
     const value = target.value;
     const name = target.name;
 
-    this.setState({
-      [name]: value,
-    }, function(){
-      this.props.onSortChange({
-        wage: this.state.wage,
-        creatingDate: this.state.creatingDate
-      });
-    });
-
+    this.setState(
+      {
+        [name]: value
+      },
+      function() {
+        this.props.onSortChange({
+          wage: this.state.wage,
+          creatingDate: this.state.creatingDate
+        });
+      }
+    );
   };
 
   render() {
     return (
       <div>
         <form className="form-inline">
-        <div className="form-group">
+          <div className="form-group">
             <select
               className="form-control"
               id="creatingDate"
@@ -39,11 +41,13 @@ class SortJobOffersForm extends Component {
               value={this.state.creatingDate}
               onChange={this.handleChange}
             >
-              <option value="" disabled>Date de création</option>
+              <option value="" disabled>
+                Date de création
+              </option>
               <option value="desc">offres récentes</option>
               <option value="asc">offres anciennes</option>
             </select>
-          </div>           
+          </div>
           <div className="form-group">
             <select
               className="form-control"
@@ -52,7 +56,9 @@ class SortJobOffersForm extends Component {
               value={this.state.wage}
               onChange={this.handleChange}
             >
-              <option value="" disabled>Salaire</option>
+              <option value="" disabled>
+                Salaire
+              </option>
               <option value="desc">salaire élevé</option>
               <option value="asc">salaire faible</option>
             </select>

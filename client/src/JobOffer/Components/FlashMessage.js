@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import ReactFlashMessage from 'react-flash-message';
+import React from "react";
+import PropTypes from "prop-types";
+import ReactFlashMessage from "react-flash-message";
 
 //print the flash messages
 const FlashMessage = ({ successMessage, errorMessage }) => (
@@ -20,7 +20,7 @@ const FlashMessage = ({ successMessage, errorMessage }) => (
 
 FlashMessage.propTypes = {
   successMessage: PropTypes.string,
-  errorMessage: PropTypes.string,
+  errorMessage: PropTypes.string
 };
 
 export default FlashMessage;

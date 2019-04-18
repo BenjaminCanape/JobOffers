@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import FlashMessage from '../../JobOffer/Components/FlashMessage';
+import React, { Component } from "react";
+import axios from "axios";
+import FlashMessage from "../../JobOffer/Components/FlashMessage";
 
-import AuthentificationStore from '../stores/AuthentificationStore';
+import AuthentificationStore from "../stores/AuthentificationStore";
 
 class EditPassword extends Component {
   constructor() {
     super();
 
     this.state = {
-      currentPassword: '',
-      newPassword: '',
-      repeatedNewPassword: '',
+      currentPassword: "",
+      newPassword: "",
+      repeatedNewPassword: "",
       user: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
       userLoggedIn: AuthentificationStore.isLoggedIn(),
-      successMessage: '',
-      errorMessage: '',
+      successMessage: "",
+      errorMessage: ""
     };
   }
 
@@ -44,23 +44,27 @@ class EditPassword extends Component {
 
     const { currentPassword, newPassword, repeatedNewPassword } = this.state;
 
-    if(newPassword === repeatedNewPassword){
-      axios.defaults.headers.common['Authorization'] = this.state.jwt;
+    if (newPassword === repeatedNewPassword) {
+      axios.defaults.headers.common["Authorization"] = this.state.jwt;
       axios
-        .put('/users/edit/' + this.state.user._id + '/password', {
+        .put("/users/edit/" + this.state.user._id + "/password", {
           currentPassword,
           newPassword
         })
         .then(result => {
-          localStorage.setItem('user', JSON.stringify(result.data.user));
-          this.setState({ user: result.data.user, successMessage: 'Mot de passe modifié' });
+          localStorage.setItem("user", JSON.stringify(result.data.user));
+          this.setState({
+            user: result.data.user,
+            successMessage: "Mot de passe modifié"
+          });
         })
         .catch(error => {
           this.setState({ errorMessage: error.response.data.msg });
+        });
+    } else {
+      this.setState({
+        errorMessage: "Les nouveaux mots de passe saisis ne sont pas identiques"
       });
-    }
-    else{
-      this.setState({ errorMessage: 'Les nouveaux mots de passe saisis ne sont pas identiques' });
     }
   };
 
@@ -68,7 +72,10 @@ class EditPassword extends Component {
   render() {
     return (
       <div className="container">
-        <FlashMessage successMessage={this.state.successMessage} errorMessage={this.state.errorMessage} />
+        <FlashMessage
+          successMessage={this.state.successMessage}
+          errorMessage={this.state.errorMessage}
+        />
         <form className="form-signin" onSubmit={this.onSubmit}>
           <h2 className="form-signin-heading">Modifier mon mot de passe</h2>
           <label htmlFor="email">Mot de passe actuel</label>

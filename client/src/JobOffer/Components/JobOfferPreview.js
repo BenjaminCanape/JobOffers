@@ -1,25 +1,25 @@
-import React, { Component } from 'react';
-import FontAwesomeIcon from '@fortawesome/react-fontawesome';
-import faTrashAlt from '@fortawesome/fontawesome-free-solid/faTrashAlt';
-import PropTypes from 'prop-types';
-import { confirmAlert } from 'react-confirm-alert';
-import 'react-confirm-alert/src/react-confirm-alert.css';
-import { Link } from 'react-router-dom';
+import React, { Component } from "react";
+import FontAwesomeIcon from "@fortawesome/react-fontawesome";
+import faTrashAlt from "@fortawesome/fontawesome-free-solid/faTrashAlt";
+import PropTypes from "prop-types";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
+import { Link } from "react-router-dom";
 
-import './JobOfferPreview.css';
+import "./JobOfferPreview.css";
 
-import AuthentificationStore from '../../Authentification/stores/AuthentificationStore';
+import AuthentificationStore from "../../Authentification/stores/AuthentificationStore";
 
 //component to print a job offer preview, used in the job offer list
 class JobOfferPreview extends Component {
   static defaultProps = {
     jobOffer: {
-      _id: '',
-      title: '',
-      company: '',
-      city: '',
-      jobDescription: '',
-    },
+      _id: "",
+      title: "",
+      company: "",
+      city: "",
+      jobDescription: ""
+    }
   };
 
   static propTypes = {
@@ -29,8 +29,8 @@ class JobOfferPreview extends Component {
       title: PropTypes.string.isRequired,
       company: PropTypes.string.isRequired,
       city: PropTypes.string.isRequired,
-      jobDescription: PropTypes.string.isRequired,
-    }),
+      jobDescription: PropTypes.string.isRequired
+    })
   };
 
   constructor() {
@@ -39,7 +39,7 @@ class JobOfferPreview extends Component {
     this.state = {
       currentUser: AuthentificationStore.user,
       jwt: AuthentificationStore.jwt,
-      userLoggedIn: AuthentificationStore.isLoggedIn(),
+      userLoggedIn: AuthentificationStore.isLoggedIn()
     };
   }
 
@@ -54,7 +54,7 @@ class JobOfferPreview extends Component {
     this.setState({
       userLoggedIn: AuthentificationStore.isLoggedIn(),
       currentUser: AuthentificationStore.user,
-      jwt: AuthentificationStore.jwt,
+      jwt: AuthentificationStore.jwt
     });
   }
 
@@ -62,28 +62,37 @@ class JobOfferPreview extends Component {
   //param description: String
   //return String
   getShortDescription(description) {
-    return description ? description.substring(0, 100) + (description.length > 100 ? '...' : '') : '';
+    return description
+      ? description.substring(0, 100) + (description.length > 100 ? "..." : "")
+      : "";
   }
 
   deleteJobOffer = id => {
     confirmAlert({
-      title: 'Confirmation',
-      message: 'Etes-vous sûr de vouloir supprimer cette offre ?',
+      title: "Confirmation",
+      message: "Etes-vous sûr de vouloir supprimer cette offre ?",
       buttons: [
         {
-          label: 'Oui',
-          onClick: () => this.props.deleteJobOffer(id),
+          label: "Oui",
+          onClick: () => this.props.deleteJobOffer(id)
         },
         {
-          label: 'Non',
-        },
-      ],
+          label: "Non"
+        }
+      ]
     });
   };
 
   render() {
     const { currentUser } = this.props;
-    const { _id, title, company, city, jobDescription, author } = this.props.jobOffer;
+    const {
+      _id,
+      title,
+      company,
+      city,
+      jobDescription,
+      author
+    } = this.props.jobOffer;
 
     let isCurrentUser = false;
 
@@ -96,18 +105,17 @@ class JobOfferPreview extends Component {
         <Link to={`/view/${_id}`} className="jobOfferTitle">
           {title}
         </Link>
-        {this.state.userLoggedIn &&
-          isCurrentUser && (
-            <FontAwesomeIcon
-              icon={faTrashAlt}
-              color="red"
-              className="float-right deleteJobOfferIcon"
-              onClick={() => this.deleteJobOffer(_id)}
-            />
-          )}
+        {this.state.userLoggedIn && isCurrentUser && (
+          <FontAwesomeIcon
+            icon={faTrashAlt}
+            color="red"
+            className="float-right deleteJobOfferIcon"
+            onClick={() => this.deleteJobOffer(_id)}
+          />
+        )}
         <br />
         <span className="subtitle">
-          {company},{city}
+          {company}, {city}
         </span>
         <br />
         <span>{this.getShortDescription(jobDescription)}</span>
