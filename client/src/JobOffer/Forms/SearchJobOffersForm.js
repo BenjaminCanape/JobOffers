@@ -38,9 +38,7 @@ class SearchJobOffersForm extends Component {
       search.city = this.state.city;
     }
 
-    if (Object.entries(search).length) {
-      this.props.onFormSubmit(search);
-    }
+    this.props.onFormSubmit(search);
   };
 
   render() {

@@ -1,13 +1,18 @@
 import React, { Component } from "react";
+const RESET_SORTING = {
+  wage: "",
+  creatingDate: ""
+};
 
 //Sort Job offers Form : This is the form to sort job offers
 class SortJobOffersForm extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      wage: "",
-      creatingDate: ""
-    };
+    this.state = RESET_SORTING;
+  }
+
+  componentDidMount() {
+    this.setState({ creatingDate: "desc" });
   }
 
   //on input change, the local state is updated
@@ -16,17 +21,16 @@ class SortJobOffersForm extends Component {
     const value = target.value;
     const name = target.name;
 
-    this.setState(
-      {
-        [name]: value
-      },
-      function() {
-        this.props.onSortChange({
-          wage: this.state.wage,
-          creatingDate: this.state.creatingDate
-        });
-      }
-    );
+    let editedState = JSON.parse(JSON.stringify(RESET_SORTING));
+    editedState[name] = value;
+    this.setState(editedState, this.onSortChange);
+  };
+
+  onSortChange = function() {
+    this.props.onSortChange({
+      wage: this.state.wage,
+      creatingDate: this.state.creatingDate
+    });
   };
 
   render() {
