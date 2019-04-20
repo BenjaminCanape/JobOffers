@@ -167,6 +167,10 @@ creatingSortObject = function(sortData) {
     }
   }
 
+  if (Object.keys(sortObject).length === 0) {
+    sortObject.creationDate = "desc";
+  }
+
   return sortObject;
 };
 
