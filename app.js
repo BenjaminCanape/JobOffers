@@ -17,7 +17,7 @@ const port = process.env.PORT || 5000;
 mongoose.Promise = global.Promise;
 
 mongoose
-  .connect(process.env.MONGODB_URI || "mongodb://mongodb/jobOffers")
+  .connect(process.env.DB_URI || "mongodb://mongodb/jobOffers")
   .then(() => console.log("connection succesful"))
   .catch(err => console.error(err));
 
